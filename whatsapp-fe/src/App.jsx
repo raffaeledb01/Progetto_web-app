@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import Sidebar from './Sidebar';
 import Chat from './Chat';
-import "./App.css"
+import "./style/App.css"
 
 function App() {
   return (

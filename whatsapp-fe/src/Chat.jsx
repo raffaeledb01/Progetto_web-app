@@ -1,5 +1,5 @@
 import React from 'react'
-import "./Chat.css"
+import "./style/Chat.css"
 import { Avatar, IconButton } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import AttachFileIcon from '@mui/icons-material/AttachFile';

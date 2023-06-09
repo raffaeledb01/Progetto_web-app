@@ -1,5 +1,5 @@
 import React from 'react'
-import "./Sidebar.css"
+import "./style/Sidebar.css"
 import DonutLargeIcon from "@mui/icons-material/DonutLarge"
 import { Avatar, IconButton } from '@mui/material'
 import ChatIcon from '@mui/icons-material/Chat';
@@ -30,7 +30,7 @@ function Sidebar() {
                 <input type='text' placeholder='Cerca Chat' />
            </div>
         </div>
-        <div className='sidebar_chat'>
+        <div className='sidebarChats'>
             <SidebarChat />
             <SidebarChat />
             <SidebarChat />
