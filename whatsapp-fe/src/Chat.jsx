@@ -6,6 +6,7 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import MicIcon from '@mui/icons-material/Mic';
+import Message from './Message'
 
 function Chat() {
   return (
@@ -29,11 +30,9 @@ function Chat() {
             </div>
         </div>
         <div className='chat_body'>
-            <p className='chat_message'>
-                <span className='chat_name'>Simone</span>
-                Sono gay
-                <span className='chat_timestamp'>{new Date().toUTCString()}</span>
-            </p>
+            <Message author='Simone' content='Sono gay' sent='true' />
+
+            <Message author = 'Simone' content = 'Vero' sent = 'false' />
 
             <p className='chat_message chat_receiver'>
                 <span className='chat_name'>Simone</span>
