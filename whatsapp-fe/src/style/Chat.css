@@ -34,21 +34,6 @@
     overflow: scroll;
 }
 
-.chat_message {
-    position: relative;
-    font-size: 16px;
-    padding: 10px;
-    width: fit-content;
-    border-radius: 10px;
-    background-color: aqua;
-    margin-bottom: 30px;
-}
-
-.chat_receiver {
-    margin-left: auto;
-    background-color: lightcoral;
-}
-
 .chat_footer {
     display: flex;
     justify-content: space-between;

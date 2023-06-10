@@ -32,7 +32,7 @@ function Chat() {
         <div className='chat_body'>
             <Message author='Simone' content='Sono gay' sent='true' />
 
-            <Message author = 'Simone' content = 'Messaggio ricevuto' />
+            <Message author = 'Simone' content = 'Messaggio ricevuto' sent = 'false'/>
 
             <p className='chat_message chat_receiver'>
                 <span className='chat_name'>Simone</span>
