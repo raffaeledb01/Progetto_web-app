@@ -10,5 +10,17 @@ module.exports = {
             chat: req.body.chat
         })
         .then(r => res.status(201).json(r))
+    },
+
+    loginUser: (req, res) => {
+        User.findOne({
+            email: req.body.email,
+            password: req.body.password
+        })
+        .then( r => {
+            if(r) res.json(r) 
+            else res.json({"error": "User not found"})
+        })
+        .catch( r => { res.json({ "error": "error"})})
     }
 }
