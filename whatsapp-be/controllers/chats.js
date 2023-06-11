@@ -13,8 +13,9 @@ module.exports = {
 
     getChatsByEmailANDPassword: (req, res) => {
         User.findOne({email: req.params.email, password: req.params.password})
-      .then()
-      .then(r => res.json(r))
+        .populate('chats')
+        .then(user => user.chats)
+        .then(r => res.json(r))
     }
 
 }
