@@ -9,5 +9,12 @@ module.exports = {
             messages: req.body.messages,
         })
         .then(r => res.status(201).json(r))
+    },
+
+    getChatsByEmailANDPassword: (req, res) => {
+        User.findOne({email: req.params.email, password: req.params.password})
+      .then()
+      .then(r => res.json(r))
     }
+
 }
