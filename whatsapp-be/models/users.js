@@ -1,12 +1,8 @@
 const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
-    email: String,
     password: String,
-    chats: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Chat"
-    }]
+    username: String
 });
 
 mongoose.exports = mongoose.model('User', userSchema);

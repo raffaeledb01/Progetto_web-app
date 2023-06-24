@@ -6,8 +6,7 @@ const messageSchema = mongoose.Schema({
         ref: "User"
     },
     content: String,
-    timeStamp: String,
-    sent: String
+    timeStamp: String
 });
 
 module.exports = mongoose.model("Message", messageSchema);
