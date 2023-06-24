@@ -10,11 +10,14 @@ const SignUpPage = (props) => {
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
+    
   };
 
   const handleSignUp = (e) => {
    e.preventDefault();
     props.signUpUser(username, password)
+    setUsername('');
+    setPassword('');
   };
 
   return (
@@ -31,6 +34,7 @@ const SignUpPage = (props) => {
         </div>
         <button type="button" onClick={handleSignUp}>Sign Up</button>
       </form>
+      <a href = './login'>Login</a>
     </div>
   );
 };

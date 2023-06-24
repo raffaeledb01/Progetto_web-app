@@ -3,6 +3,7 @@ const http = require('http');
 const io = require('socket.io')(http);
 const mongoose = require('mongoose');
 const router = require('./routes/api')
+const cors = require('cors');
 
 const app = express();
 const port = 3000;
@@ -14,6 +15,8 @@ const db = mongoose.connection;
 db.once('open', () => {
     console.log('Connesso al db')
 })
+
+app.use(cors());
 
 app.use(express.json())
 
