@@ -3,6 +3,6 @@ const chatsControllers = require('../controllers/chats');
 const router = express.Router();
 
 router.post('/new', chatsControllers.addChat)
-router.get('/all', chatsControllers.getChatsByLoggedUser)
+router.get('/all/:username', chatsControllers.getChatsByUsername)
 
 module.exports = router;

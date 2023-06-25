@@ -7,11 +7,14 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import "./style/Login.css";
+import { useNavigate } from 'react-router-dom';
+
 
 
 const LoginPage = (props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -26,28 +29,11 @@ const LoginPage = (props) => {
     props.changeLoggedUser(username, password);
     setUsername('');
     setPassword('');
+    
   };
 
 
   return (
-    /*
-    <div>
-      <h2>Login</h2>
-      <form>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input type="text" name="username" value={username} onChange={handleUsernameChange} />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input type="password" id="password" value={password} onChange={handlePasswordChange} />
-        </div>
-        <button type="button" onClick={handleLogin}>Login</button>
-      </form>
-      <a href='./signup'>Sign up</a>
-      
-    </div>
-    */
 
 <Container component="main" maxWidth="sm" className="container">
       <Box className="box">
@@ -88,7 +74,7 @@ const LoginPage = (props) => {
             className="submit-button"
             onClick={handleLogin}
           >
-            Log in
+           Log in 
           </Button>
           <Grid container>
             <Grid item>

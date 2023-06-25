@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import Sidebar from './Sidebar';
 import Chat from './Chat';
 import "./style/App.css";
-import {Routes, Route} from 'react-router-dom';
+import {Routes, Route, useNavigate} from 'react-router-dom';
 import LoginPage from './Login';
 import SignUpPage from './SignUp';
 import { useState } from 'react';
@@ -13,15 +13,21 @@ import Home from './Home';
 function App() {
 
   const [loggedUser, setLoggedUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const navigate = useNavigate();
 
   const changeLoggedUser = (username, password) => {
+    console.log(username);
     fetch('http://localhost:3000/api/users/login', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({'username': username, 'password': password})
     })
-        .then(res =>  res.json())
-        .then(user => !user.error && setLoggedUser(user))
+    .then(res => res.json())
+    .then(user => setLoggedUser(user))
+    //.then(() =>  {navigate(`/${loggedUser.username}`)});
+    .then(console.log(loggedUser))
   }
 
   function signUpUser(username, password) {
@@ -38,10 +44,10 @@ function App() {
   return (
     <Routes>
       <Route path = '/login' element = {<LoginPage changeLoggedUser = {changeLoggedUser} loggedUser = {loggedUser}/>} />
-      <Route path = ':username' element = { 
+      <Route path = ':username' element = {
       <div className="app">
       <div className="app_body">
-        <Sidebar />
+        <Sidebar loggedUser = {loggedUser}/>
         <Chat />
       </div>
     </div>
