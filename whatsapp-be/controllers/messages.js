@@ -1,6 +1,8 @@
 const Message = require('../models/messages');
 const express = require('express');
-const Chat = require('../models/chats')
+const Chat = require('../models/chats');
+const messages = require('../models/messages');
+const User = require('../models/users');
 
 module.exports = {
 
@@ -14,11 +16,13 @@ module.exports = {
     },
 
     getAllMessagesbyChat: (req, res) => {
-       Chat.findOne({_id: req.params.idChat})
-       .then(chat => Message.find().populate('author'))
-       .then(r => res.json(r)) 
+       Chat.findOne({_id: req.params.idChat}).populate({
+        path: 'messages',
+        populate: {
+          path: 'author',
+          select: 'username' 
+        }
+      })
+       .then(chat => res.json(chat.messages)) 
     }
-
-
-
 }
