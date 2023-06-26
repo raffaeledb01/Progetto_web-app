@@ -7,6 +7,7 @@ import {Routes, Route, useNavigate} from 'react-router-dom';
 import LoginPage from './Login';
 import SignUpPage from './SignUp';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Home from './Home';
 
 
@@ -16,6 +17,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
+  const { username } = useParams();
 
   const changeLoggedUser = (username, password) => {
     console.log(username);
@@ -25,35 +27,49 @@ function App() {
       body: JSON.stringify({'username': username, 'password': password})
     })
     .then(res => res.json())
-    .then(user => setLoggedUser(user))
-    //.then(() =>  {navigate(`/${loggedUser.username}`)});
-    .then(console.log(loggedUser))
-  }
+    .then(user => {setLoggedUser(user);
+      return user;
+    })
+    .then(user => {navigate(`/${user.username}`)})
+    .catch(error => {
+      setError(error);
+      console.error(error);
+    });
+};
 
-  function signUpUser(username, password) {
+  const signUpUser = (username, password) => {
     fetch('http://localhost:3000/api/users/new', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({'username': username, 'password': password})
     })
-    .then(res =>  res.json())
-    .then(user => !user.error && setLoggedUser(user))
-  }
-
+    .then(res => res.json())
+    .then(user => {
+      setLoggedUser(user);
+      return user;
+    })
+    .then(user => {
+      navigate(`/${user.username}`);
+    })
+    .catch(error => {
+      setError(error);
+      console.error(error);
+    });
+  };
 
   return (
     <Routes>
+      <Route path = '/' element = { <Home />} />
       <Route path = '/login' element = {<LoginPage changeLoggedUser = {changeLoggedUser} loggedUser = {loggedUser}/>} />
+      <Route path = '/signup' element = {<SignUpPage signUpUser = {signUpUser} loggedUser = {loggedUser} />} />
       <Route path = ':username' element = {
-      <div className="app">
-      <div className="app_body">
-        <Sidebar loggedUser = {loggedUser}/>
-        <Chat />
-      </div>
-    </div>
-  } />
-  <Route path = '/' element = { <Home />} />
-    <Route path = '/signup' element = {<SignUpPage signUpUser = {signUpUser} loggedUser = {loggedUser} />} />
+        <div className="app">
+          <div className="app_body">
+            <Sidebar loggedUser = {loggedUser}/>
+            <Chat />
+          </div>
+        </div>
+      }/>
     </Routes>
   );
 }

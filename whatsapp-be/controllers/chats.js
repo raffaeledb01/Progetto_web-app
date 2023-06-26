@@ -1,5 +1,5 @@
-const User = require('../models/chats');
-const express = require('express');
+const User = require('../models/users');
+const Chat = require('../models/chats');
 
 module.exports = {
 
@@ -12,8 +12,10 @@ module.exports = {
     },
 
     getChatsByUsername: (req, res) => {
-        User.findOne({username: req.params.username})
-        .then( u => Chat.find({ participants: { $in: [u._id] } }).populate('participants', 'username firstName lastName'))
-        .then( r => res.json(r))
+      User.findOne({username: req.params.username})
+      .then( u => Chat.find({ partecipants: { $in: [u._id] } }).populate('partecipants', 'username firstName lastName'))
+      .then(r => console.log("risposta ottenuta nel controller chats" + r))
+      .then( r => res.json(r))
     },
+
 }

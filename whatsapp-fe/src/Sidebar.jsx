@@ -12,11 +12,10 @@ function Sidebar(props) {
     const [chats, setChats] = useState([]);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
-
-    console.log(props.loggedUser.username)
   
     useEffect(() => {
         fetch('http://localhost:3000/api/chats/all/' + props.loggedUser.username)
+        .then(res => console.log(res))
         .then(res => {
             if (res.ok) return res.json();
             else throw new Error('Si è verificato un errore nella comunicazione con il server');
@@ -30,10 +29,9 @@ function Sidebar(props) {
           setError(true)
         })
       }, [])
+    
 
     return (
-        <>
-        {loading ? <span>Caricamento in corso...</span> : error ? <span>Errore nel caricamento dei post</span> :
     <div className='sidebar'>
         <div className='sidebar_header'>
             <Avatar src='https://sisinflab.poliba.it/wp-content/uploads/2021/12/profile-photo-circle-360x270.jpg'/>
@@ -58,8 +56,7 @@ function Sidebar(props) {
         <div className='sidebarChats'>
             {chats.map( chat => <SidebarChat data={chat} loggedUser = {props.loggedUser}/>)}
         </div>
-    </div>}
-    </>
+    </div>
   )
 }
 
