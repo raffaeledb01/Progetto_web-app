@@ -14,7 +14,6 @@ module.exports = {
     getChatsByUsername: (req, res) => {
       User.findOne({username: req.params.username})
       .then( u => Chat.find({ partecipants: { $in: [u._id] } }).populate('partecipants', 'username firstName lastName'))
-      .then(r => console.log("risposta ottenuta nel controller chats" + r))
       .then( r => res.json(r))
     },
 

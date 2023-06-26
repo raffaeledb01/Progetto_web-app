@@ -6,6 +6,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SearchIcon from '@mui/icons-material/Search';
 import SidebarChat from './SidebarChat';
+import ChatsContainer from './ChatsContainer';
 
 function Sidebar(props) {
 
@@ -15,7 +16,7 @@ function Sidebar(props) {
   
     useEffect(() => {
         fetch('http://localhost:3000/api/chats/all/' + props.loggedUser.username)
-        .then(res => console.log(res))
+        //.then(res => {console.log(res); return res})
         .then(res => {
             if (res.ok) return res.json();
             else throw new Error('Si è verificato un errore nella comunicazione con il server');
@@ -26,11 +27,12 @@ function Sidebar(props) {
         })
         .catch(error => {
           setLoading(false)
+          console.log(error)
           setError(true)
         })
       }, [])
-    
 
+    
     return (
     <div className='sidebar'>
         <div className='sidebar_header'>
@@ -54,7 +56,8 @@ function Sidebar(props) {
            </div>
         </div>
         <div className='sidebarChats'>
-            {chats.map( chat => <SidebarChat data={chat} loggedUser = {props.loggedUser}/>)}
+            {loading ? <span>Caricamento in corso...</span> : error ? <span>Errore nel caricamento dei post</span> :
+                <ChatsContainer chats={chats} loggedUser = {props.loggedUser} />}
         </div>
     </div>
   )
