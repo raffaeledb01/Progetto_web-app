@@ -13,25 +13,6 @@ function Sidebar(props) {
     const [chats, setChats] = useState([]);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
-  
-    useEffect(() => {
-        fetch('http://localhost:3000/api/chats/all/' + props.loggedUser.username)
-        //.then(res => {console.log(res); return res})
-        .then(res => {
-            if (res.ok) return res.json();
-            else throw new Error('Si è verificato un errore nella comunicazione con il server');
-        })
-        .then(obj => {
-          setLoading(false)
-          setChats(obj)
-        })
-        .catch(error => {
-          setLoading(false)
-          console.log(error)
-          setError(true)
-        })
-      }, [])
-
     
     return (
     <div className='sidebar'>
@@ -56,8 +37,7 @@ function Sidebar(props) {
            </div>
         </div>
         <div className='sidebarChats'>
-            {loading ? <span>Caricamento in corso...</span> : error ? <span>Errore nel caricamento dei post</span> :
-                <ChatsContainer chats={chats} loggedUser = {props.loggedUser} />}
+                <ChatsContainer chats={props.chats} loggedUser = {props.loggedUser} />
         </div>
     </div>
   )

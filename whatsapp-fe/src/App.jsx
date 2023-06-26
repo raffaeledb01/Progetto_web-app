@@ -8,6 +8,7 @@ import LoginPage from './Login';
 import SignUpPage from './SignUp';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import {useEffect} from 'react';
 import Home from './Home';
 
 
@@ -16,8 +17,28 @@ function App() {
   const [loggedUser, setLoggedUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [chats, setChats] = useState([]);
   const navigate = useNavigate();
   const { username } = useParams();
+
+  useEffect(() => {
+    if (loggedUser) {
+      fetch(`http://localhost:3000/api/chats/all/${loggedUser.username}`)
+        .then(res => {
+          if (res.ok) return res.json();
+          else throw new Error('Si è verificato un errore nella comunicazione con il server');
+        })
+        .then(obj => {
+          setLoading(false);
+          setChats(obj);
+        })
+        .catch(error => {
+          setLoading(false);
+          console.log(error);
+          setError(true);
+        });
+    }
+  }, [loggedUser]);
 
   const changeLoggedUser = (username, password) => {
     console.log(username);
@@ -65,8 +86,9 @@ function App() {
       <Route path = ':username' element = {
         <div className="app">
           <div className="app_body">
-            <Sidebar loggedUser = {loggedUser}/>
-            <Chat />
+            <Sidebar loggedUser = {loggedUser} chats={chats} loading={loading} error={error}/> 
+            {loading ? <span>Caricamento in corso...</span> : error ? <span>Errore nel caricamento dei post</span> :
+            <Chat />}
           </div>
         </div>
       }/>
