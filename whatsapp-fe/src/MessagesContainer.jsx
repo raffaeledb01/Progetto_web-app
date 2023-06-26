@@ -8,5 +8,6 @@ export default function MessagesContainer(props) {
         content = {message.content}
         timeStamp = {message.timeStamp}
         key={message._id} 
-        loggedUser = {props.loggedUser} /> )}
+        loggedUser = {props.loggedUser}
+         /> )}
 }

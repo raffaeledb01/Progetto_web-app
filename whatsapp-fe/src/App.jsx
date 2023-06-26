@@ -88,7 +88,20 @@ useEffect(() => {
     .catch(error => {
       setError(error);
       console.error(error);
-    })}}, [showChat])
+    })}}, [showChat, addMessage])
+
+    function addMessage(content, chatId) {
+      fetch('http://localhost:3000/api/messages/new', {
+          method: 'post',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+              author: loggedUser._id,
+              content: content,
+              chatId: chatId
+          })
+      })
+  }
+  
 
 
 
@@ -102,7 +115,7 @@ useEffect(() => {
           <div className="app_body">
             <Sidebar loggedUser = {loggedUser} chats={chats} setShowChat = {setShowChat} /> 
             {loading ? <span>Caricamento in corso...</span> : error ? <span>Errore nel caricamento dei messaggi</span> :
-            <Chat loggedUser = {loggedUser} messages = {messages}/>}
+            <Chat loggedUser = {loggedUser} messages = {messages} showChat = {showChat} addMessage = {addMessage}/>}
           </div>
         </div>
       }/>
