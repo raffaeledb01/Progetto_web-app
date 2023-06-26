@@ -7,8 +7,9 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import MicIcon from '@mui/icons-material/Mic';
 import Message from './Message'
+import MessagesContainer from './MessagesContainer';
 
-function Chat() {
+function Chat(props) {
   return (
     <div className='chat'>
         <div className='chat_header'>
@@ -30,9 +31,8 @@ function Chat() {
             </div>
         </div>
         <div className='chat_body'>
-            <Message author='Simone' content='Sono gay' sent='true' />
 
-            <Message author = 'Simone' content = 'Messaggio ricevuto' sent = 'false'/>
+            <MessagesContainer messages = {props.messages} loggedUser = {props.loggedUser} showChat = {props.showChat} />
 
             <p className='chat_message chat_receiver'>
                 <span className='chat_name'>Simone</span>

@@ -10,9 +10,6 @@ import ChatsContainer from './ChatsContainer';
 
 function Sidebar(props) {
 
-    const [chats, setChats] = useState([]);
-    const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(true);
     
     return (
     <div className='sidebar'>
@@ -37,7 +34,7 @@ function Sidebar(props) {
            </div>
         </div>
         <div className='sidebarChats'>
-                <ChatsContainer chats={props.chats} loggedUser = {props.loggedUser} />
+                <ChatsContainer chats={props.chats} loggedUser = {props.loggedUser} setShowChat = {props.setShowChat}/>
         </div>
     </div>
   )

@@ -4,6 +4,6 @@ const router = express.Router();
 
 router.post('/new', messagesController.addMessage)
 
-router.get('/getAllMessages', messagesController.getAllMessages)
+router.get('/getAllMessages/:idChat', messagesController.getAllMessagesbyChat)
 
 module.exports = router;

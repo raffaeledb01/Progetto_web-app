@@ -20,6 +20,9 @@ function App() {
   const [chats, setChats] = useState([]);
   const navigate = useNavigate();
   const { username } = useParams();
+  const [showChat, setShowChat] = useState(null);
+  
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     if (loggedUser) {
@@ -29,7 +32,7 @@ function App() {
           else throw new Error('Si è verificato un errore nella comunicazione con il server');
         })
         .then(obj => {
-          setLoading(false);
+          //setLoading(false);
           setChats(obj);
         })
         .catch(error => {
@@ -41,7 +44,6 @@ function App() {
   }, [loggedUser]);
 
   const changeLoggedUser = (username, password) => {
-    console.log(username);
     fetch('http://localhost:3000/api/users/login', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
@@ -78,6 +80,18 @@ function App() {
     });
   };
 
+useEffect(() => {
+  if(showChat) {
+    fetch(`http://localhost:3000/api/messages/getAllMessages/${showChat}`) 
+    .then(res => res.json())
+    .then(messages => {setLoading(false); setMessages(messages)})
+    .catch(error => {
+      setError(error);
+      console.error(error);
+    })}}, [showChat])
+
+
+
   return (
     <Routes>
       <Route path = '/' element = { <Home />} />
@@ -86,9 +100,9 @@ function App() {
       <Route path = ':username' element = {
         <div className="app">
           <div className="app_body">
-            <Sidebar loggedUser = {loggedUser} chats={chats} loading={loading} error={error}/> 
-            {loading ? <span>Caricamento in corso...</span> : error ? <span>Errore nel caricamento dei post</span> :
-            <Chat />}
+            <Sidebar loggedUser = {loggedUser} chats={chats} setShowChat = {setShowChat} /> 
+            {loading ? <span>Caricamento in corso...</span> : error ? <span>Errore nel caricamento dei messaggi</span> :
+            <Chat loggedUser = {loggedUser} messages = {messages}/>}
           </div>
         </div>
       }/>
