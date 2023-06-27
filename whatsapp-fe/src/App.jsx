@@ -61,10 +61,11 @@ function App() {
 };
 
   const signUpUser = (username, password) => {
+    let friends = [];
     fetch('http://localhost:3000/api/users/new', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({'username': username, 'password': password})
+      body: JSON.stringify({'username': username, 'password': password, 'friends': friends})
     })
     .then(res => res.json())
     .then(user => {
