@@ -24,9 +24,9 @@ function App() {
   
   const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
-    if (loggedUser) {
-      fetch(`http://localhost:3000/api/chats/all/${loggedUser.username}`)
+
+  const fetchAllChats = () => {
+    fetch(`http://localhost:3000/api/chats/all/${loggedUser.username}`)
         .then(res => {
           if (res.ok) return res.json();
           else throw new Error('Si è verificato un errore nella comunicazione con il server');
@@ -41,6 +41,10 @@ function App() {
           setError(true);
         });
     }
+  
+  useEffect(() => {
+    if (loggedUser) 
+      fetchAllChats();
   }, [loggedUser]);
 
   const changeLoggedUser = (username, password) => {
@@ -91,17 +95,39 @@ useEffect(() => {
       console.error(error);
     })}}, [showChat, addMessage])
 
+    const addChat = (username) => {
+      fetch('http://localhost:3000/api/chats/addChat', {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({'username': username, 'loggedUserId': props.loggedUser._id})
+      })
+      .then(res => res.json())
+      .then(() => fetchFriends())
+      .catch(error => {
+        console.error(error);
+      });
+    }
+
     function addMessage(content, chatId) {
+      const now = new Date();
+      const year = now.getFullYear(); 
+      const month = now.getMonth() + 1; 
+      const day = now.getDate(); 
+      const hours = now.getHours(); 
+      const minutes = now.getMinutes(); // 
+      const timeStamp = `${hours}:${minutes} - ${day}/${month}/${year}`;
       fetch('http://localhost:3000/api/messages/new', {
           method: 'post',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
               author: loggedUser._id,
               content: content,
-              chatId: chatId
+              chatId: chatId,
+              timeStamp: timeStamp
           })
       })
   }
+
   
 
 
@@ -114,7 +140,7 @@ useEffect(() => {
       <Route path = ':username' element = {
         <div className="app">
           <div className="app_body">
-            <Sidebar loggedUser = {loggedUser} chats={chats} setShowChat = {setShowChat} /> 
+            <Sidebar loggedUser = {loggedUser} chats={chats} setShowChat = {setShowChat} addChat = {addChat} /> 
             {loading ? <span>Seleziona una chat per iniziare a messaggiare</span> : error ? <span>Errore nel caricamento dei messaggi</span> :
             <Chat loggedUser = {loggedUser} messages = {messages} showChat = {showChat} addMessage = {addMessage}/>}
           </div>

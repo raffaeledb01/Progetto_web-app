@@ -1,7 +1,8 @@
 import React from 'react'
 import "./style/SidebarChat.css"
 import { Avatar } from '@mui/material'
-
+import DeleteIcon from '@mui/icons-material/Delete';
+import SendIcon from '@mui/icons-material/Send';
 
 
 function Friend(props) {
@@ -11,6 +12,10 @@ function Friend(props) {
         <Avatar />
         <div className='sidebarChat_info'>
             <h2>{props.username}</h2>
+        </div>
+        <div className='buttonRequest'>
+        <DeleteIcon onClick = {() => props.removeFriend(props.username)} />
+        <SendIcon onClick = {() => props.addChat(props.username)} />
         </div>
     </div>
   )

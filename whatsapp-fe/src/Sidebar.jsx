@@ -54,7 +54,6 @@ function Sidebar(props) {
             body: JSON.stringify({'username': username, 'loggedUserId': props.loggedUser._id})
           })
           .then(res => res.json())
-          .then(() => fetchFriends())
           .catch(error => {
             console.error(error);
           });
@@ -115,7 +114,6 @@ function Sidebar(props) {
       }
 
       const declineRequest = (username) => {
-        console.log(username)
         fetch('http://localhost:3000/api/users/declineRequest', {
           method: 'post',
           headers: {'Content-Type': 'application/json'},
@@ -127,6 +125,22 @@ function Sidebar(props) {
           console.error(error);
         });
       }
+
+      const removeFriend = (username) => {
+        fetch('http://localhost:3000/api/users/removeFriend', {
+          method: 'post',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({'username': username, 'loggedUserId': props.loggedUser._id})
+        })
+        .then(res => res.json())
+        .then(() => fetchFriends())
+        .catch(error => {
+          console.error(error);
+        });
+      }
+
+      
+      
     
 
     return (
@@ -162,7 +176,7 @@ function Sidebar(props) {
            </div>
         </div>
         <div className='sidebarChats'>
-            {showFriends ? <FriendsContainer friends = {friends} loggedUser = {props.loggedUser} /> : showListChats ? 
+            {showFriends ? <FriendsContainer friends = {friends} loggedUser = {props.loggedUser} removeFriend = {removeFriend} addChat = {props.addChat} /> : showListChats ? 
             <ChatsContainer chats={props.chats} loggedUser = {props.loggedUser} setShowChat = {props.setShowChat}/> :
             <RequestsContainer requests = {requests} loggedUser = {props.loggedUser} acceptRequest = {acceptRequest} declineRequest = {declineRequest}/>}       
         </div>
