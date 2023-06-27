@@ -47,18 +47,21 @@ module.exports = {
             User.findOne({ username: req.body.username })
               .then(user => {
                 if (!user) { return res.status(404).json({ message: 'Utente non trovato' }); }
+                
                 let isFriendLoggedUser = true;
       
                 if (loggedUser.friends.length !== 0) 
-                {isFriendLoggedUser = loggedUser.friends.some(friendId =>  friendId.equals(user._id))}
+                {isFriendLoggedUser = loggedUser.friends.some(friendId => friendId.equals(user._id))}
                 else if (loggedUser.requests.length === 0 )
                 { isFriendLoggedUser = false}
-                else { return res.status(400).json({ message: "L'utente è già tuo amico" }); }
+
+                if(isFriendLoggedUser) { return res.status(400).json({ message: "L'utente è già tuo amico" }); }
                 
-                let isFriendU = true;
+                let isFriendUser = true;
                 if (user.requests.length !== 0) { isFriendUser = user.requests.some(requestsId => requestsId.equals(loggedUser._id))}
                 else if (user.requests.length === 0) { isFriendUser = false}
-                else { return res.status(400).json({ message: 'Richiesta gia inviata' }); }
+                
+                if (isFriendUser) { return res.status(400).json({ message: 'Richiesta gia inviata' }); }
 
                 
       
@@ -146,5 +149,34 @@ module.exports = {
       res.status(500).json({ message: 'Si è verificato un errore durante la ricerca dell\'utente' });
     })
   },
+
+  removeFriend: (req, res) => {
+    User.findOne({ _id: req.body.loggedUserId })
+      .then(loggedUser => {
+    
+    if (!loggedUser) { return res.status(404).json({ message: 'Utente non trovato' }); }
+
+    User.findOne({ username: req.body.username })
+      .then(user => {
+        if (!user) { return res.status(404).json({ message: 'Utente non trovato' }); }
+
+        loggedUser.friends = loggedUser.friends.filter(friends => !friends.equals(user._id));
+        user.friends = user.friends.filter(friends => !friends.equals(loggedUser._id));
+
+
+        return Promise.all([user.save(), loggedUser.save()]);
+      })
+      .then(() => {
+        res.json({ message: 'Amico rimosso con successo' });
+      })
+      .catch(err => {
+        res.status(500).json({ message: "Si è verificato un errore durante la rimozione dell'amicizia "});
+      });
+  })
+  .catch(err => {
+    res.status(500).json({ message: 'Si è verificato un errore durante la ricerca dell\'utente' });
+  })
+},
+
 
   }

@@ -9,5 +9,6 @@ router.post('/addFriend', usersControllers.addFriend)
 router.get('/getRequests/:idUser', usersControllers.getAllRequests)
 router.post('/acceptRequest', usersControllers.acceptRequest)
 router.post('/declineRequest', usersControllers.declineRequest)
+router.post('/removeFriend', usersControllers.removeFriend)
 
 module.exports = router;
