@@ -3,11 +3,12 @@ import "./style/Sidebar.css"
 import PeopleIcon from '@mui/icons-material/People';
 import { Avatar, IconButton } from '@mui/material'
 import ChatIcon from '@mui/icons-material/Chat';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SearchIcon from '@mui/icons-material/Search';
 import ChatsContainer from './ChatsContainer';
 import FriendsContainer from './FriendsContainer';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import RequestsContainer from './RequestsContainer';
 
 function Sidebar(props) {
 
@@ -15,17 +16,21 @@ function Sidebar(props) {
     const [showListChats, setShowListChats] = useState(true);
     const [friends, setFriends] = useState([]);
     const [inputValueFriend, setInputValueFriend] = useState('');
+    const [requests, setRequests] = useState([]);
+    const [showRequests, setShowRequests] = useState(false)
 
     const handleClickFriends = (e) => {
         e.preventDefault();
         setShowFriends(true);
         setShowListChats(false);
+        setShowRequests(false);
     }
 
     const handleClickChats = (e) => {
         e.preventDefault();
         setShowListChats(true);
         setShowFriends(false);
+        setShowRequests(false);
         
     }
 
@@ -35,13 +40,20 @@ function Sidebar(props) {
         setInputValueFriend('')
     }
 
+    const handleClickRequests = (e) => {
+      e.preventDefault()
+      setShowRequests(true)
+      setShowListChats(false)
+      setShowFriends(false)
+    }
+
     const addFriend = (username) => {
         fetch('http://localhost:3000/api/users/addFriend', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({'username': username, 'loggedUserId': props.loggedUser._id})
           })
-          .then(res => { res.json()})
+          .then(res => res.json())
           .then(() => fetchFriends())
           .catch(error => {
             console.error(error);
@@ -62,10 +74,59 @@ function Sidebar(props) {
             });
     }
 
+    const fetchRequests = () => {
+      fetch(`http://localhost:3000/api/users/getRequests/${props.loggedUser._id}`)
+            .then(res => {
+              if (res.ok) return res.json();
+              else throw new Error('Si è verificato un errore nella comunicazione con il server');
+            })
+            .then(obj => {
+              setRequests(obj.requests);
+            })
+            .catch(error => {
+              console.log(error);
+            });
+    }
+
     useEffect(() => {
-        if (showFriends && !showListChats) {
+      
+        if (showFriends && !showListChats && !showRequests) {
           fetchFriends();
       }}, [showFriends]);
+
+      useEffect(() => {
+        if (!showFriends && !showListChats && showRequests) {
+          fetchRequests();
+      }}, [showRequests]);
+
+
+      const acceptRequest = (username) => {
+        console.log(username)
+        fetch('http://localhost:3000/api/users/acceptRequest', {
+          method: 'post',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({'username': username, 'loggedUserId': props.loggedUser._id})
+        })
+        .then(res => res.json())
+        .then(() => fetchRequests())
+        .catch(error => {
+          console.error(error);
+        });
+      }
+
+      const declineRequest = (username) => {
+        console.log(username)
+        fetch('http://localhost:3000/api/users/declineRequest', {
+          method: 'post',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({'username': username, 'loggedUserId': props.loggedUser._id})
+        })
+        .then(res => res.json())
+        .then(() => fetchRequests())
+        .catch(error => {
+          console.error(error);
+        });
+      }
     
 
     return (
@@ -79,8 +140,8 @@ function Sidebar(props) {
                 <IconButton onClick = {handleClickChats}>
                     <ChatIcon />
                 </IconButton>
-                <IconButton>
-                    <MoreVertIcon />
+                <IconButton onClick = {handleClickRequests}>
+                    <NotificationsActiveIcon />
                 </IconButton>
             </div>
         </div>
@@ -92,18 +153,18 @@ function Sidebar(props) {
             value = {inputValueFriend} 
             onChange = {(e => {
                 e.preventDefault()
-                console.log('ristamp')
                 setInputValueFriend(e.target.value)
             })} 
-            placeholder='Aggiungi amico tramite username' /></form> :
-            <><SearchIcon /><input type='text' placeholder='Cerca Chat' /></>
+            placeholder='Aggiungi amico tramite username' /></form> : showListChats ?
+            <><SearchIcon /><input type='text' placeholder='Cerca Chat' /></> : <></>
             }
                 
            </div>
         </div>
         <div className='sidebarChats'>
-            {showFriends ? <FriendsContainer friends = {friends} loggedUser = {props.loggedUser} /> : 
-            <ChatsContainer chats={props.chats} loggedUser = {props.loggedUser} setShowChat = {props.setShowChat}/> }       
+            {showFriends ? <FriendsContainer friends = {friends} loggedUser = {props.loggedUser} /> : showListChats ? 
+            <ChatsContainer chats={props.chats} loggedUser = {props.loggedUser} setShowChat = {props.setShowChat}/> :
+            <RequestsContainer requests = {requests} loggedUser = {props.loggedUser} acceptRequest = {acceptRequest} declineRequest = {declineRequest}/>}       
         </div>
     </div>
   )

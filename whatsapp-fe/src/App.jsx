@@ -115,7 +115,7 @@ useEffect(() => {
         <div className="app">
           <div className="app_body">
             <Sidebar loggedUser = {loggedUser} chats={chats} setShowChat = {setShowChat} /> 
-            {loading ? <span>Caricamento in corso...</span> : error ? <span>Errore nel caricamento dei messaggi</span> :
+            {loading ? <span>Seleziona una chat per iniziare a messaggiare</span> : error ? <span>Errore nel caricamento dei messaggi</span> :
             <Chat loggedUser = {loggedUser} messages = {messages} showChat = {showChat} addMessage = {addMessage}/>}
           </div>
         </div>
