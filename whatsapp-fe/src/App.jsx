@@ -93,7 +93,7 @@ useEffect(() => {
     .catch(error => {
       setError(error);
       console.error(error);
-    })}}, [showChat, addMessage])
+    })}}, [showChat])
 
   const addChat = (username) => {
       fetch('http://localhost:3000/api/chats/new', {
@@ -108,30 +108,6 @@ useEffect(() => {
       });
     }
 
-    function addMessage(content, chatId) {
-      const now = new Date();
-      const year = now.getFullYear(); 
-      const month = now.getMonth() + 1; 
-      const day = now.getDate(); 
-      const hours = now.getHours(); 
-      const minutes = now.getMinutes(); // 
-      const timeStamp = `${hours}:${minutes} - ${day}/${month}/${year}`;
-      fetch('http://localhost:3000/api/messages/new', {
-          method: 'post',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-              author: loggedUser._id,
-              content: content,
-              chatId: chatId,
-              timeStamp: timeStamp
-          })
-      })
-  }
-
-  
-
-
-
   return (
     <Routes>
       <Route path = '/' element = { <Home />} />
@@ -142,7 +118,7 @@ useEffect(() => {
           <div className="app_body">
             <Sidebar loggedUser = {loggedUser} chats={chats} setShowChat = {setShowChat} addChat = {addChat} fetchAllChats = {fetchAllChats} setChatUsername= {setChatUsername}/> 
             {loading ? <span>Seleziona una chat per iniziare a messaggiare</span> : error ? <span>Errore nel caricamento dei messaggi</span> :
-            <Chat loggedUser = {loggedUser} messages = {messages} showChat = {showChat} addMessage = {addMessage} chatUsername = {chatUsername}/> }
+            <Chat loggedUser = {loggedUser} messages = {messages} showChat = {showChat} chatUsername = {chatUsername} setShowChat = {setShowChat} setMessages = {setMessages} setLoading = {setLoading}/> }
           </div>
         </div>
       }/>

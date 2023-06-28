@@ -14,6 +14,28 @@ import MessagesContainer from './MessagesContainer';
 function Chat(props) {
     const [inputValue, setInputValue] = useState('')
     console.log(props.chatUsername)
+
+    function addMessage(content, chatId) {
+        const now = new Date();
+        const year = now.getFullYear(); 
+        const month = now.getMonth() + 1; 
+        const day = now.getDate(); 
+        const hours = now.getHours(); 
+        const minutes = now.getMinutes(); // 
+        const timeStamp = `${hours}:${minutes} - ${day}/${month}/${year}`;
+        fetch('http://localhost:3000/api/messages/new', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                author: props.loggedUser._id,
+                content: content,
+                chatId: chatId,
+                timeStamp: timeStamp
+            })
+        }).then(res => res.json())
+        .then(messages => {props.setLoading(false); props.setMessages(messages)})
+    }
+  
   return (
     <div className='chat'>
         <div className='chat_header'>
@@ -42,7 +64,7 @@ function Chat(props) {
             <InsertEmoticonIcon />
             <form onSubmit={ (e) => {
                 e.preventDefault()
-                props.addMessage(inputValue, props.showChat)
+                addMessage(inputValue, props.showChat)
                 setInputValue('')
                 
               }}>

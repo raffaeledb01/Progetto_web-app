@@ -18,7 +18,13 @@ module.exports = {
                 {_id: chatId},
                 { $push: { messages: message._id}},
                 { new: true}
-            ).populate('messages')
+            ).populate({
+                path: 'messages',
+                populate: {
+                  path: 'author',
+                  select: 'username' 
+                }
+              })
         }).then(updatedChat => {
             if(updatedChat) {
                 res.json(updatedChat.messages)
