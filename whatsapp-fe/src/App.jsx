@@ -95,14 +95,14 @@ useEffect(() => {
       console.error(error);
     })}}, [showChat, addMessage])
 
-    const addChat = (username) => {
-      fetch('http://localhost:3000/api/chats/addChat', {
+  const addChat = (username) => {
+      fetch('http://localhost:3000/api/chats/new', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({'username': username, 'loggedUserId': props.loggedUser._id})
+        body: JSON.stringify({'username': username, 'loggedUserId': loggedUser._id})
       })
-      .then(res => res.json())
-      .then(() => fetchFriends())
+      .then(res => {return res.json()})
+      .then(obj => { setShowChat(obj._id)})
       .catch(error => {
         console.error(error);
       });
@@ -140,7 +140,7 @@ useEffect(() => {
       <Route path = ':username' element = {
         <div className="app">
           <div className="app_body">
-            <Sidebar loggedUser = {loggedUser} chats={chats} setShowChat = {setShowChat} addChat = {addChat} /> 
+            <Sidebar loggedUser = {loggedUser} chats={chats} setShowChat = {setShowChat} addChat = {addChat} fetchAllChats = {fetchAllChats}/> 
             {loading ? <span>Seleziona una chat per iniziare a messaggiare</span> : error ? <span>Errore nel caricamento dei messaggi</span> :
             <Chat loggedUser = {loggedUser} messages = {messages} showChat = {showChat} addMessage = {addMessage}/>}
           </div>

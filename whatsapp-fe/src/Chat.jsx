@@ -18,7 +18,7 @@ function Chat(props) {
         <div className='chat_header'>
             <Avatar />
             <div className='chat_header_info'>
-                <h3>Room name</h3>
+                <h3>Room Name</h3>
                 <p>Last access</p>
             </div>
             <div className='chat_header_right'>

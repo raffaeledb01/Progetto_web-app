@@ -98,6 +98,11 @@ function Sidebar(props) {
           fetchRequests();
       }}, [showRequests]);
 
+      useEffect(() => {
+        if (!showFriends && showListChats && !showRequests) {
+          props.fetchAllChats();
+      }}, [showListChats])
+
 
       const acceptRequest = (username) => {
         console.log(username)
