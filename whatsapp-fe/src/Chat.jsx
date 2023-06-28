@@ -6,8 +6,8 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import MicIcon from '@mui/icons-material/Mic';
-import Message from './Message'
 import MessagesContainer from './MessagesContainer';
+import { io } from 'socket.io-client';
 
 
 
@@ -22,6 +22,7 @@ function Chat(props) {
         const hours = now.getHours(); 
         const minutes = now.getMinutes(); // 
         const timeStamp = `${hours}:${minutes} - ${day}/${month}/${year}`;
+        
         fetch('http://localhost:3000/api/messages/new', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
@@ -32,7 +33,12 @@ function Chat(props) {
                 timeStamp: timeStamp
             })
         }).then(res => res.json())
-        .then(messages => {props.setLoading(false); props.setMessages(messages)})
+        .then(messages => {
+            props.setLoading(false); 
+            props.setMessages(messages);
+            props.socket.emit('sendMessage', chatId)
+            console.log('messaaggio inviato')
+        })
     }
   
   return (

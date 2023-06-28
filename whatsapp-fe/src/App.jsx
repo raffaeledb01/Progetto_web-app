@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {useEffect} from 'react';
 import Home from './Home';
+import { io } from 'socket.io-client';
 
 
 function App() {
@@ -23,6 +24,32 @@ function App() {
   const [showChat, setShowChat] = useState(null);
   const [chatUsername, setChatUsername] = useState('') 
   const [messages, setMessages] = useState([]);
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    const newSocket = io('http://localhost:3000');
+    setSocket(newSocket);
+
+    return () => {
+      newSocket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('connect', () => {
+        console.log('Connected to Socket.io');
+      });
+
+      socket.on('disconnect', () => {
+        console.log('Disconnected from Socket.io');
+      });
+
+      socket.on('error', (error) => {
+        console.error('Socket.io Error:', error);
+      });
+    }
+  }, [socket]);
 
 
   const fetchAllChats = () => {
@@ -85,15 +112,42 @@ function App() {
     });
   };
 
-useEffect(() => {
-  if(showChat) {
-    fetch(`http://localhost:3000/api/messages/getAllMessages/${showChat}`) 
-    .then(res => res.json())
-    .then(messages => {setLoading(false); setMessages(messages)})
-    .catch(error => {
-      setError(error);
-      console.error(error);
-    })}}, [showChat])
+  
+
+
+  useEffect(() => {
+    if (socket && showChat) {
+      socket.emit('joinRoom', showChat);
+      console.log('Emit nell useEffect')
+      fetch(`http://localhost:3000/api/messages/getAllMessages/${showChat}`)
+        .then(res => res.json())
+        .then(messages => {
+          setLoading(false);
+          setMessages(messages);
+        })
+        .catch(error => {
+          setError(error);
+          console.error(error);
+        });
+    }
+
+    if (socket && showChat) {
+      socket.on('newMessage', () => {
+        console.log('on evento newMessage')
+        fetch(`http://localhost:3000/api/messages/getAllMessages/${showChat}`)
+          .then(res => res.json())
+          .then(messages => {
+            setLoading(false);
+            setMessages(messages);
+          })
+          .catch(error => {
+            setError(error);
+            console.error(error);
+          });
+      });
+    }
+
+  }, [socket, showChat]);
 
   const addChat = (username) => {
       fetch('http://localhost:3000/api/chats/new', {
@@ -118,7 +172,7 @@ useEffect(() => {
           <div className="app_body">
             <Sidebar loggedUser = {loggedUser} chats={chats} setShowChat = {setShowChat} addChat = {addChat} fetchAllChats = {fetchAllChats} setChatUsername= {setChatUsername}/> 
             {loading ? <span>Seleziona una chat per iniziare a messaggiare</span> : error ? <span>Errore nel caricamento dei messaggi</span> :
-            <Chat loggedUser = {loggedUser} messages = {messages} showChat = {showChat} chatUsername = {chatUsername} setShowChat = {setShowChat} setMessages = {setMessages} setLoading = {setLoading}/> }
+            <Chat loggedUser = {loggedUser} messages = {messages} showChat = {showChat} chatUsername = {chatUsername} setShowChat = {setShowChat} setMessages = {setMessages} setLoading = {setLoading} socket = {socket}/> }
           </div>
         </div>
       }/>
