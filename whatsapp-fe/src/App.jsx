@@ -8,7 +8,7 @@ import LoginPage from './Login';
 import SignUpPage from './SignUp';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import {useEffect, useRef } from 'react';
+import {useEffect} from 'react';
 import Home from './Home';
 
 
@@ -23,7 +23,7 @@ function App() {
   const [showChat, setShowChat] = useState(null);
   const [chatUsername, setChatUsername] = useState('') 
   const [messages, setMessages] = useState([]);
-  const prevShowChatRef = useRef(null);
+
 
   const fetchAllChats = () => {
     fetch(`http://localhost:3000/api/chats/all/${loggedUser.username}`)
@@ -85,21 +85,15 @@ function App() {
     });
   };
 
-  useEffect(() => {
-    if (showChat !== prevShowChatRef.current) {
-      fetch(`http://localhost:3000/api/messages/getAllMessages/${showChat}`)
-        .then(res => res.json())
-        .then(messages => {
-          setMessages(messages);
-        })
-        .catch(error => {
-          setError(error);
-          console.error(error);
-        });
-    }
-
-    prevShowChatRef.current = showChat;
-  }, [showChat, addMessage]);
+useEffect(() => {
+  if(showChat) {
+    fetch(`http://localhost:3000/api/messages/getAllMessages/${showChat}`) 
+    .then(res => res.json())
+    .then(messages => {setLoading(false); setMessages(messages)})
+    .catch(error => {
+      setError(error);
+      console.error(error);
+    })}}, [showChat, addMessage])
 
   const addChat = (username) => {
       fetch('http://localhost:3000/api/chats/new', {
