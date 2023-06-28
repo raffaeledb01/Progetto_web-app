@@ -12,6 +12,7 @@ function SidebarChat(props) {
   const handleClick = (e) => {
     e.preventDefault();
     props.setShowChat(idChat);
+    props.setChatUsername(nameChat)
   }
 
   return (

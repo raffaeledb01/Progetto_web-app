@@ -181,8 +181,8 @@ function Sidebar(props) {
            </div>
         </div>
         <div className='sidebarChats'>
-            {showFriends ? <FriendsContainer friends = {friends} loggedUser = {props.loggedUser} removeFriend = {removeFriend} addChat = {props.addChat} /> : showListChats ? 
-            <ChatsContainer chats={props.chats} loggedUser = {props.loggedUser} setShowChat = {props.setShowChat}/> :
+            {showFriends ? <FriendsContainer friends = {friends} loggedUser = {props.loggedUser} removeFriend = {removeFriend} addChat = {props.addChat} setChatUsername= {props.setChatUsername} /> : showListChats ? 
+            <ChatsContainer chats={props.chats} loggedUser = {props.loggedUser} setShowChat = {props.setShowChat} setChatUsername= {props.setChatUsername}/> :
             <RequestsContainer requests = {requests} loggedUser = {props.loggedUser} acceptRequest = {acceptRequest} declineRequest = {declineRequest}/>}       
         </div>
     </div>

@@ -13,12 +13,13 @@ import MessagesContainer from './MessagesContainer';
 
 function Chat(props) {
     const [inputValue, setInputValue] = useState('')
+    console.log(props.chatUsername)
   return (
     <div className='chat'>
         <div className='chat_header'>
             <Avatar />
             <div className='chat_header_info'>
-                <h3>Room Name</h3>
+                <h3>{props.chatUsername}</h3>
                 <p>Last access</p>
             </div>
             <div className='chat_header_right'>

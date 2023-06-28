@@ -8,5 +8,6 @@ export default function FriendsContainer(props) {
         key={friend._id} 
         loggedUser = {props.loggedUser}
         removeFriend = {props.removeFriend} 
-        addChat = {props.addChat} /> ) 
+        addChat = {props.addChat}
+        setChatUsername= {props.setChatUsername} /> ) 
 }
