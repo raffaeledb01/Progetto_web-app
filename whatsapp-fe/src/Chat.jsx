@@ -13,7 +13,6 @@ import MessagesContainer from './MessagesContainer';
 
 function Chat(props) {
     const [inputValue, setInputValue] = useState('')
-    console.log(props.chatUsername)
 
     function addMessage(content, chatId) {
         const now = new Date();
@@ -73,11 +72,11 @@ function Chat(props) {
                 type="text"
                 name = 'message'
                 value = {inputValue}
-                onChange={(e => {
+                onChange={e => {
                     e.preventDefault();
                     setInputValue(e.target.value)
 
-                })}
+                }}
                 
                 />
                 <button type="submit">
