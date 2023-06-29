@@ -63,7 +63,6 @@ function App() {
           else throw new Error('Si è verificato un errore nella comunicazione con il server');
         })
         .then(obj => {
-          //setLoading(false);
           setChats(obj);
         })
         .catch(error => {
@@ -72,13 +71,8 @@ function App() {
           setError(true);
         });
     }
-  
-  useEffect(() => {
-    if (loggedUser) 
-      fetchAllChats();
-  }, [loggedUser]);
 
-  const changeLoggedUser = (username, password) => {
+  function changeLoggedUser(username, password) {
     fetch('http://localhost:3000/api/users/login', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
@@ -104,19 +98,16 @@ function App() {
 
 
   const signUpUser = (username, password) => {
-    let friends = [];
     fetch('http://localhost:3000/api/users/new', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({'username': username, 'password': password, 'friends': friends})
+      body: JSON.stringify({'username': username, 'password': password})
     })
     .then(res => res.json())
     .then(user => {
       setLoggedUser(user);
-      return user;
-    })
-    .then(user => {
       navigate(`/${user.username}`);
+      return user;
     })
     .catch(error => {
       setError(error);
@@ -124,9 +115,12 @@ function App() {
     });
   };
 
+
+  useEffect(() => {
+    if (loggedUser) 
+      fetchAllChats();
+  }, [loggedUser]);
   
-
-
 
   useEffect(() => {
     if (socket && previousShowChat.current) {

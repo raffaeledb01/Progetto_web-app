@@ -12,7 +12,6 @@ import { useNavigate } from 'react-router-dom';
 const SignUpPage = (props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -26,7 +25,6 @@ const SignUpPage = (props) => {
   const handleSignUp = (e) => {
    e.preventDefault();
     props.signUpUser(username, password);
-    navigate(`/${username}`);
     setUsername('');
     setPassword('');
   };

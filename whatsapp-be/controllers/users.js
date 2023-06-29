@@ -5,10 +5,12 @@ module.exports = {
     addUser: (req, res) => {
         User.create({
             username: req.body.username,
-            password: req.body.password,
-            friends: req.body.friends
+            password: req.body.password
         })
-        .then(r => res.status(201).json(r))
+        .then(r => res.json(r))
+        .catch(error => {
+          res.json({ "error": "Errore durante la creazione dell'utente" });
+        })
     },
 
     loginUser: (req, res) => {
