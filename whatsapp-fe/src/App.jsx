@@ -84,19 +84,24 @@ function App() {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({'username': username, 'password': password})
     })
-    .then(res => res.json())
-    .then(user => {
-      if(user.error === 'User not found') {
-        alert('User not found !')
-      } else {
-        setLoggedUser(user);
-        navigate(`/${user.username}`)
-      }})
-    .catch(error => {
-      setError(error);
-      console.error(error);
-    });
-};
+      .then(res => res.json())
+      .then(user => {
+        if (user.error === 'Utente non trovato') {
+          alert('Utente non trovato');
+        } else if (user.error === 'Password errata') {
+          alert('Password errata');
+        } else {
+          setLoggedUser(user);
+          navigate(`/${user.username}`);
+          return user;
+        }
+      })
+      .catch(error => {
+        setError(error);
+        console.error(error);
+      });
+  };
+
 
   const signUpUser = (username, password) => {
     let friends = [];

@@ -12,15 +12,23 @@ module.exports = {
     },
 
     loginUser: (req, res) => {
-        User.findOne({
-            username: req.body.username,
-            password: req.body.password,
+      User.findOne({
+        username: req.body.username,
+      })
+        .then(user => {
+          if (user) {
+            if (req.body.password === user.password) {
+              res.json(user);
+            } else {
+              res.json({ "error": "Password errata" });
+            }
+          } else {
+            res.json({ "error": "Utente non trovato" });
+          }
         })
-        .then( r => {
-            if(r)  res.json(r) 
-            else res.json({"error": "User not found"})
-        })
-        .catch(r => res.json({"error": "error"}))
+        .catch(error => {
+          res.json({ "error": "Errore durante la ricerca dell'utente" });
+        });
     },
 
     getAllFriends: (req, res) => {
