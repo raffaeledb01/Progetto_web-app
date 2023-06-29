@@ -1,10 +1,8 @@
 .buttonRequest {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 10vw;
-    flex-direction: row-reverse;
-    margin-left: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 10vw;
   }
   
   .buttonRequest > .MuiSvgIcon-root {

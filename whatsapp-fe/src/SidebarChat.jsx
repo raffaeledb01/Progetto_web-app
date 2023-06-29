@@ -24,7 +24,6 @@ function SidebarChat(props) {
         <Avatar src = {imgChat}/>
         <div className='sidebarChat_info'>
             <h2>{nameChat}</h2>
-            <p>This is the last message</p>
         </div>
     </div>
   )

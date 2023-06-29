@@ -46,7 +46,6 @@ function Chat(props) {
             <Avatar src = {props.chatImg}/>
             <div className='chat_header_info'>
                 <h3>{props.chatUsername}</h3>
-                <p>Last access</p>
             </div>
             <div className='chat_header_right'>
                 <IconButton>

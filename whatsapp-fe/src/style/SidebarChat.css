@@ -20,7 +20,7 @@
 
 .sidebarFriend {
     display: flex;
-    padding: 20px;
-    cursor: pointer;
-    border-bottom: 1px solid white;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 10vw;
 }
