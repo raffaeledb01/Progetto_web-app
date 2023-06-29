@@ -38,9 +38,12 @@ function Sidebar(props) {
     }
 
     const handleClickAddFriend = (e) => {
-        e.preventDefault()
-        addFriend(inputValueFriend)
-        setInputValueFriend('')
+      e.preventDefault();
+      let trimmedValueFriend = inputValueFriend.trim();
+      if (trimmedValueFriend !== '') {
+        addFriend(inputValueFriend);
+        setInputValueFriend('');
+      }
     }
 
     const handleClickRequests = (e) => {

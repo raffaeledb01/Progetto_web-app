@@ -68,12 +68,14 @@ function Chat(props) {
 
         <div className='chat_footer'>
             <InsertEmoticonIcon />
-            <form onSubmit={ (e) => {
-                e.preventDefault()
-                addMessage(inputValue, props.showChat)
-                setInputValue('')
-                
-              }}>
+            <form onSubmit={(e) => {
+                e.preventDefault();
+                let trimmedValue = inputValue.trim();
+                if (trimmedValue !== '') {
+                    addMessage(trimmedValue, props.showChat);
+                    setInputValue('');
+                }
+                }}>
                 <input
                 placeholder="Scrivi un messaggio"
                 type="text"

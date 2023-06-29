@@ -23,10 +23,14 @@ const SignUpPage = (props) => {
   };
 
   const handleSignUp = (e) => {
-   e.preventDefault();
-    props.signUpUser(username, password);
-    setUsername('');
-    setPassword('');
+    e.preventDefault()
+    let trimmedValueUsername = username.trim();
+    let trimmedValuePassword = password.trim();
+      if (trimmedValueUsername !== '' && trimmedValuePassword !== '') {
+        props.signUpUser(username, password);
+        setUsername('');
+        setPassword('');
+      }
   };
 
   return (

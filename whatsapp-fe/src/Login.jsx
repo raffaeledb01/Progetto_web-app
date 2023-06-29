@@ -25,10 +25,13 @@ const LoginPage = (props) => {
 
   const handleLogin = (e) => {
     e.preventDefault()
-    props.changeLoggedUser(username, password);
-    setUsername('');
-    setPassword('');
-    
+    let trimmedValueUsername = username.trim();
+    let trimmedValuePassword = password.trim();
+      if (trimmedValueUsername !== '' && trimmedValuePassword !== '') {
+        props.changeLoggedUser(username, password);
+        setUsername('');
+        setPassword('');
+      }
   };
 
 
