@@ -31,7 +31,12 @@
     background-repeat: repeat;
     background-position: center;
     padding: 30px;
-    overflow: scroll;
+    overflow: auto;
+    transform: rotate(180deg);
+}
+
+.chat_body_reverse {
+    transform: rotate(-180deg)
 }
 
 .chat_footer {

@@ -60,7 +60,9 @@ function Chat(props) {
             </div>
         </div>
         <div className='chat_body'>
+            <div className = 'chat_body_reverse'>
             <MessagesContainer messages = {props.messages} loggedUser = {props.loggedUser} showChat = {props.showChat} />
+            </div>
         </div>
 
         <div className='chat_footer'>
