@@ -11,5 +11,6 @@ export default function FriendsContainer(props) {
         removeFriend = {props.removeFriend} 
         addChat = {props.addChat}
         setChatUsername = {props.setChatUsername}
-        setChatImg = {props.setChatImg} /> ) 
+        setChatImg = {props.setChatImg}
+        setLoading = {props.setLoading} /> ) 
 }

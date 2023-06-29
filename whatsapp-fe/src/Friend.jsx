@@ -15,7 +15,7 @@ function Friend(props) {
             <h2>{props.username}</h2>
         </div>
         <div className='buttonRequest'>
-        <DeleteIcon onClick = {() => props.removeFriend(props.username)} />
+        <DeleteIcon onClick = {() => {props.removeFriend(props.username); props.setLoading(true)}} />
         <SendIcon onClick = {() => {props.addChat(props.username); props.setChatUsername(props.username); props.setChatImg(props.img)}} />
         </div>
     </div>

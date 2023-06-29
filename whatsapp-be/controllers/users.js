@@ -1,4 +1,5 @@
 const User = require('../models/users');
+const Chat = require('../models/chats');
 
 module.exports = {
 
@@ -176,30 +177,39 @@ module.exports = {
   removeFriend: (req, res) => {
     User.findOne({ _id: req.body.loggedUserId })
       .then(loggedUser => {
-    
-    if (!loggedUser) { return res.status(404).json({ message: 'Utente non trovato' }); }
-
-    User.findOne({ username: req.body.username })
-      .then(user => {
-        if (!user) { return res.status(404).json({ message: 'Utente non trovato' }); }
-
-        loggedUser.friends = loggedUser.friends.filter(friends => !friends.equals(user._id));
-        user.friends = user.friends.filter(friends => !friends.equals(loggedUser._id));
-
-
-        return Promise.all([user.save(), loggedUser.save()]);
-      })
-      .then(() => {
-        res.json({ message: 'Amico rimosso con successo' });
+        if (!loggedUser) {
+          return res.status(404).json({ message: 'Utente non trovato' });
+        }
+  
+        User.findOne({ username: req.body.username })
+          .then(user => {
+            if (!user) {
+              return res.status(404).json({ message: 'Utente non trovato' });
+            }
+  
+            loggedUser.friends = loggedUser.friends.filter(friendId => !friendId.equals(user._id));
+            user.friends = user.friends.filter(friendId => !friendId.equals(loggedUser._id));
+  
+            // Remove chat between the two users
+            Chat.findOneAndDelete({ partecipants: { $all: [loggedUser._id, user._id] } })
+              .then(() => {
+                return Promise.all([user.save(), loggedUser.save()]);
+              })
+              .then(() => {
+                res.json({ message: 'Amico rimosso con successo e chat eliminata' });
+              })
+              .catch(err => {
+                res.status(500).json({ message: 'Si è verificato un errore durante la rimozione dell\'amicizia e della chat' });
+              });
+          })
+          .catch(err => {
+            res.status(500).json({ message: 'Si è verificato un errore durante la ricerca dell\'utente' });
+          });
       })
       .catch(err => {
-        res.status(500).json({ message: "Si è verificato un errore durante la rimozione dell'amicizia "});
+        res.status(500).json({ message: 'Si è verificato un errore durante la ricerca dell\'utente' });
       });
-  })
-  .catch(err => {
-    res.status(500).json({ message: 'Si è verificato un errore durante la ricerca dell\'utente' });
-  })
-},
+  },
 
 
   }
