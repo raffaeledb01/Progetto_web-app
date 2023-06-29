@@ -10,13 +10,13 @@ function Friend(props) {
 
   return (
     <div className='sidebarChat'>
-        <Avatar />
+        <Avatar src = {props.img} />
         <div className='sidebarChat_info'>
             <h2>{props.username}</h2>
         </div>
         <div className='buttonRequest'>
         <DeleteIcon onClick = {() => props.removeFriend(props.username)} />
-        <SendIcon onClick = {() => {props.addChat(props.username); props.setChatUsername(props.username)}} />
+        <SendIcon onClick = {() => {props.addChat(props.username); props.setChatUsername(props.username); props.setChatImg(props.img)}} />
         </div>
     </div>
   )

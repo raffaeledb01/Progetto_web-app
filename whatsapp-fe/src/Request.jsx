@@ -10,7 +10,7 @@ function Request(props) {
 
   return (
     <div className='sidebarChat'>
-        <Avatar />
+        <Avatar src = {props.img} />
         <div className='sidebarChat_info'>
             <h2>{props.username}</h2>
         </div>

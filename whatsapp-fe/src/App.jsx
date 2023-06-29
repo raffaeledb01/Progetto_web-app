@@ -24,14 +24,15 @@ function App() {
   const navigate = useNavigate();
   const { username } = useParams();
   const [showChat, setShowChat] = useState(null);
-  const [chatUsername, setChatUsername] = useState('') 
+  const [chatUsername, setChatUsername] = useState('')
+  const [chatImg, setChatImg] = useState('') 
   const [messages, setMessages] = useState([]);
   const [socket, setSocket] = useState(null);
   const previousShowChat = useRef(showChat);
   
 
   useEffect(() => {
-    const newSocket = io('http://localhost:3000');
+    const newSocket = io('http://localhost:3001');
     setSocket(newSocket);
 
     return () => {
@@ -57,7 +58,7 @@ function App() {
 
 
   const fetchAllChats = () => {
-    fetch(`http://localhost:3000/api/chats/all/${loggedUser.username}`)
+    fetch(`http://localhost:3001/api/chats/all/${loggedUser.username}`)
         .then(res => {
           if (res.ok) return res.json();
           else throw new Error('Si è verificato un errore nella comunicazione con il server');
@@ -73,7 +74,7 @@ function App() {
     }
 
   function changeLoggedUser(username, password) {
-    fetch('http://localhost:3000/api/users/login', {
+    fetch('http://localhost:3001/api/users/login', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({'username': username, 'password': password})
@@ -97,11 +98,11 @@ function App() {
   };
 
 
-  const signUpUser = (username, password) => {
-    fetch('http://localhost:3000/api/users/new', {
+  const signUpUser = (username, password, img) => {
+    fetch('http://localhost:3001/api/users/new', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({'username': username, 'password': password})
+      body: JSON.stringify({'username': username, 'password': password, 'img': img})
     })
     .then(res => res.json())
     .then(user => {
@@ -133,8 +134,7 @@ function App() {
   
     if (socket && showChat) {
       socket.emit('joinRoom', showChat);
-      console.log('Emit nell useEffect');
-      fetch(`http://localhost:3000/api/messages/getAllMessages/${showChat}`)
+      fetch(`http://localhost:3001/api/messages/getAllMessages/${showChat}`)
         .then(res => res.json())
         .then(messages => {
           setLoading(false);
@@ -148,11 +148,8 @@ function App() {
   
     if (socket && showChat) {
       socket.on('newMessage', (roomId) => {
-        console.log('on evento newMessage');
-        console.log(showChat);
-        console.log(roomId);
         if (showChat === roomId) {
-          fetch(`http://localhost:3000/api/messages/getAllMessages/${showChat}`)
+          fetch(`http://localhost:3001/api/messages/getAllMessages/${showChat}`)
             .then(res => res.json())
             .then(messages => {
               setLoading(false);
@@ -176,7 +173,7 @@ function App() {
   }, [socket, showChat]);
 
   const addChat = (username) => {
-      fetch('http://localhost:3000/api/chats/new', {
+      fetch('http://localhost:3001/api/chats/new', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({'username': username, 'loggedUserId': loggedUser._id})
@@ -196,9 +193,9 @@ function App() {
       <Route path = ':username' element = {
         <div className="app">
           <div className="app_body">
-            <Sidebar loggedUser = {loggedUser} setLoggedUser = {setLoggedUser} chats={chats} setShowChat = {setShowChat} addChat = {addChat} fetchAllChats = {fetchAllChats} setChatUsername= {setChatUsername} setLoading = {setLoading} /> 
+            <Sidebar loggedUser = {loggedUser} setLoggedUser = {setLoggedUser} chats={chats} setShowChat = {setShowChat} addChat = {addChat} fetchAllChats = {fetchAllChats} setChatUsername= {setChatUsername} setChatImg = {setChatImg} setLoading = {setLoading} /> 
             {loading ? <LoadingPage /> : error ? <ErrorLoadingPage /> :
-            <Chat loggedUser = {loggedUser} messages = {messages} showChat = {showChat} chatUsername = {chatUsername} setShowChat = {setShowChat} setMessages = {setMessages} setLoading = {setLoading} socket = {socket}/> }
+            <Chat loggedUser = {loggedUser} messages = {messages} showChat = {showChat} chatUsername = {chatUsername} chatImg = {chatImg} setShowChat = {setShowChat} setMessages = {setMessages} setLoading = {setLoading} socket = {socket}/> }
           </div>
         </div>
       }/>

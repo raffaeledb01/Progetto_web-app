@@ -61,7 +61,7 @@ function Sidebar(props) {
     }
 
     const addFriend = (username) => {
-        fetch('http://localhost:3000/api/users/addFriend', {
+        fetch('http://localhost:3001/api/users/addFriend', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({'username': username, 'loggedUserId': props.loggedUser._id})
@@ -73,7 +73,7 @@ function Sidebar(props) {
     }
 
     const fetchFriends = () => {
-      fetch(`http://localhost:3000/api/users/getFriends/${props.loggedUser._id}`)
+      fetch(`http://localhost:3001/api/users/getFriends/${props.loggedUser._id}`)
             .then(res => {
               if (res.ok) return res.json();
               else throw new Error('Si è verificato un errore nella comunicazione con il server');
@@ -87,7 +87,7 @@ function Sidebar(props) {
     }
 
     const fetchRequests = () => {
-      fetch(`http://localhost:3000/api/users/getRequests/${props.loggedUser._id}`)
+      fetch(`http://localhost:3001/api/users/getRequests/${props.loggedUser._id}`)
             .then(res => {
               if (res.ok) return res.json();
               else throw new Error('Si è verificato un errore nella comunicazione con il server');
@@ -118,8 +118,7 @@ function Sidebar(props) {
 
 
       const acceptRequest = (username) => {
-        console.log(username)
-        fetch('http://localhost:3000/api/users/acceptRequest', {
+        fetch('http://localhost:3001/api/users/acceptRequest', {
           method: 'post',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({'username': username, 'loggedUserId': props.loggedUser._id})
@@ -132,7 +131,7 @@ function Sidebar(props) {
       }
 
       const declineRequest = (username) => {
-        fetch('http://localhost:3000/api/users/declineRequest', {
+        fetch('http://localhost:3001/api/users/declineRequest', {
           method: 'post',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({'username': username, 'loggedUserId': props.loggedUser._id})
@@ -145,7 +144,7 @@ function Sidebar(props) {
       }
 
       const removeFriend = (username) => {
-        fetch('http://localhost:3000/api/users/removeFriend', {
+        fetch('http://localhost:3001/api/users/removeFriend', {
           method: 'post',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({'username': username, 'loggedUserId': props.loggedUser._id})
@@ -160,7 +159,7 @@ function Sidebar(props) {
     return (
     <div className='sidebar'>
         <div className='sidebar_header'>
-            <Avatar src='https://sisinflab.poliba.it/wp-content/uploads/2021/12/profile-photo-circle-360x270.jpg'/>
+            <Avatar src= {props.loggedUser.img}/>
             <div className='sidebar_header_right'>
                 <IconButton onClick = {handleClickFriends}>
                     <PeopleIcon />
@@ -193,8 +192,8 @@ function Sidebar(props) {
            </div>
         </div>
         <div className='sidebarChats'>
-            {showFriends ? <FriendsContainer friends = {friends} loggedUser = {props.loggedUser} removeFriend = {removeFriend} addChat = {props.addChat} setChatUsername= {props.setChatUsername} /> : showListChats ? 
-            <ChatsContainer chats={props.chats} loggedUser = {props.loggedUser} setShowChat = {props.setShowChat} setChatUsername= {props.setChatUsername}/> :
+            {showFriends ? <FriendsContainer friends = {friends} loggedUser = {props.loggedUser} removeFriend = {removeFriend} addChat = {props.addChat} setChatUsername= {props.setChatUsername} setChatImg = {props.setChatImg} /> : showListChats ? 
+            <ChatsContainer chats={props.chats} loggedUser = {props.loggedUser} setShowChat = {props.setShowChat} setChatUsername= {props.setChatUsername} setChatImg = {props.setChatImg}/> :
             <RequestsContainer requests = {requests} loggedUser = {props.loggedUser} acceptRequest = {acceptRequest} declineRequest = {declineRequest}/>}       
         </div>
     </div>

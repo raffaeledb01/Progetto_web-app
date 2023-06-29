@@ -12,7 +12,8 @@ module.exports = {
         } else {
           User.create({
             username: req.body.username,
-            password: req.body.password
+            password: req.body.password,
+            img: req.body.img
           })
             .then(newUser => res.json(newUser))
             .catch(error => {

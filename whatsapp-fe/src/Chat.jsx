@@ -23,7 +23,7 @@ function Chat(props) {
         const minutes = now.getMinutes(); // 
         const timeStamp = `${hours}:${minutes} - ${day}/${month}/${year}`;
         
-        fetch('http://localhost:3000/api/messages/new', {
+        fetch('http://localhost:3001/api/messages/new', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -36,16 +36,14 @@ function Chat(props) {
         .then(messages => {
             props.setLoading(false); 
             props.setMessages(messages);
-            console.log(chatId)
             props.socket.emit('sendMessage', chatId)
-            console.log('messaaggio inviato')
         })
     }
   
   return (
     <div className='chat'>
         <div className='chat_header'>
-            <Avatar />
+            <Avatar src = {props.chatImg}/>
             <div className='chat_header_info'>
                 <h3>{props.chatUsername}</h3>
                 <p>Last access</p>

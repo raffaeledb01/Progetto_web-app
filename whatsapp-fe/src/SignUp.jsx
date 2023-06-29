@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 const SignUp = (props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [img, setImg] = useState('')
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -22,14 +23,20 @@ const SignUp = (props) => {
     
   };
 
+  const handleImgChange = (e) => {
+    setImg(e.target.value);
+  };
+
   const handleSignUp = (e) => {
     e.preventDefault();
     let trimmedValueUsername = username.trim();
     let trimmedValuePassword = password.trim();
-      if (trimmedValueUsername !== '' && trimmedValuePassword !== '') {
-        props.signUpUser(username, password);
+    let trimmedValueImg = img.trim();
+      if (trimmedValueUsername !== '' && trimmedValuePassword !== '' && trimmedValueImg !== '') {
+        props.signUpUser(username, password, img);
         setUsername('');
         setPassword('');
+        setImg('');
       }
   };
 
@@ -65,6 +72,19 @@ const SignUp = (props) => {
             autoComplete="current-password"
             value={password}
             onChange={handlePasswordChange}
+            className="text-field"
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="img"
+            label="Profile Photo URL"
+            name="img"
+            autoComplete="img"
+            autoFocus
+            value={img}
+            onChange={handleImgChange}
             className="text-field"
           />
           <Button

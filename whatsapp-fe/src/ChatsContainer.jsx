@@ -8,5 +8,6 @@ export default function ChatsContainer(props) {
         key={chat._id} 
         loggedUser = {props.loggedUser} 
         setShowChat = {props.setShowChat} 
-        setChatUsername= {props.setChatUsername}/> ) 
+        setChatUsername = {props.setChatUsername}
+        setChatImg = {props.setChatImg}/> ) 
 }
