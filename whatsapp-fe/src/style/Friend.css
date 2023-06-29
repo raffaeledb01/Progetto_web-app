@@ -1,0 +1,18 @@
+.buttonRequest {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 10vw;
+    flex-direction: row-reverse;
+  }
+  
+  .buttonRequest > .MuiSvgIcon-root {
+    margin-left: 2vw;
+    font-size: 24px !important;
+  }
+  
+  .buttonRequest > .MuiSvgIcon-root:first-child {
+    margin-right: auto;
+  }
+  
+  

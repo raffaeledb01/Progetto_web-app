@@ -1,5 +1,6 @@
 import React from 'react'
 import "./style/SidebarChat.css"
+import "./style/Friend.css"
 import { Avatar } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
