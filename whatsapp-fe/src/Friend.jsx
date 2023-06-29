@@ -9,7 +9,7 @@ import SendIcon from '@mui/icons-material/Send';
 function Friend(props) {
 
   return (
-    <div className='sidebarChat'>
+    <div className='sidebarFriend'>
         <Avatar src = {props.img} />
         <div className='sidebarChat_info'>
             <h2>{props.username}</h2>
