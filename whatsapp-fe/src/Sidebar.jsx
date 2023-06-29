@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import {useNavigate} from 'react-router-dom';
 import "./style/Sidebar.css"
 import PeopleIcon from '@mui/icons-material/People';
 import { Avatar, IconButton } from '@mui/material'
@@ -9,6 +10,7 @@ import FriendsContainer from './FriendsContainer';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import RequestsContainer from './RequestsContainer';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 function Sidebar(props) {
 
@@ -18,6 +20,7 @@ function Sidebar(props) {
     const [inputValueFriend, setInputValueFriend] = useState('');
     const [requests, setRequests] = useState([]);
     const [showRequests, setShowRequests] = useState(false)
+    const navigate = useNavigate()
 
     const handleClickFriends = (e) => {
         e.preventDefault();
@@ -45,6 +48,12 @@ function Sidebar(props) {
       setShowRequests(true)
       setShowListChats(false)
       setShowFriends(false)
+    }
+
+    const handleLogout = (e) => {
+      e.preventDefault();
+      props.setLoggedUser(null);
+      navigate('/');
     }
 
     const addFriend = (username) => {
@@ -144,10 +153,6 @@ function Sidebar(props) {
         });
       }
 
-      
-      
-    
-
     return (
     <div className='sidebar'>
         <div className='sidebar_header'>
@@ -162,6 +167,9 @@ function Sidebar(props) {
                 <IconButton onClick = {handleClickRequests}>
                     <NotificationsActiveIcon />
                 </IconButton>
+                <IconButton onClick = {handleLogout}>
+                    <LogoutIcon />
+                </IconButton> 
             </div>
         </div>
         <div className='sidebar_search'>

@@ -192,7 +192,7 @@ function App() {
       <Route path = ':username' element = {
         <div className="app">
           <div className="app_body">
-            <Sidebar loggedUser = {loggedUser} chats={chats} setShowChat = {setShowChat} addChat = {addChat} fetchAllChats = {fetchAllChats} setChatUsername= {setChatUsername}/> 
+            <Sidebar loggedUser = {loggedUser} setLoggedUser = {setLoggedUser} chats={chats} setShowChat = {setShowChat} addChat = {addChat} fetchAllChats = {fetchAllChats} setChatUsername= {setChatUsername}/> 
             {loading ? <span>Seleziona una chat per iniziare a messaggiare</span> : error ? <span>Errore nel caricamento dei messaggi</span> :
             <Chat loggedUser = {loggedUser} messages = {messages} showChat = {showChat} chatUsername = {chatUsername} setShowChat = {setShowChat} setMessages = {setMessages} setLoading = {setLoading} socket = {socket}/> }
           </div>
