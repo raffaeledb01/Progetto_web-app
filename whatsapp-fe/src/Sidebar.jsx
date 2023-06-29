@@ -160,6 +160,7 @@ function Sidebar(props) {
     <div className='sidebar'>
         <div className='sidebar_header'>
             <Avatar src= {props.loggedUser.img}/>
+            <h3>{props.loggedUser.username}</h3>
             <div className='sidebar_header_right'>
                 <IconButton onClick = {handleClickFriends}>
                     <PeopleIcon />

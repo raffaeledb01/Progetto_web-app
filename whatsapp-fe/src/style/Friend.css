@@ -4,11 +4,13 @@
     justify-content: space-between;
     min-width: 10vw;
     flex-direction: row-reverse;
+    margin-left: 200px;
   }
   
   .buttonRequest > .MuiSvgIcon-root {
     margin-left: 2vw;
     font-size: 24px !important;
+    color: grey
   }
   
   .buttonRequest > .MuiSvgIcon-root:first-child {
