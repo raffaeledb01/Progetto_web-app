@@ -2,16 +2,28 @@ const User = require('../models/users');
 
 module.exports = {
 
-    addUser: (req, res) => {
-        User.create({
+  addUser: (req, res) => {
+    User.findOne({
+      username: req.body.username,
+    })
+      .then(existingUser => {
+        if (existingUser) {
+          res.json({ "error": "Utente già esistente" });
+        } else {
+          User.create({
             username: req.body.username,
             password: req.body.password
-        })
-        .then(r => res.json(r))
-        .catch(error => {
-          res.json({ "error": "Errore durante la creazione dell'utente" });
-        })
-    },
+          })
+            .then(newUser => res.json(newUser))
+            .catch(error => {
+              res.json({ "error": "Errore durante la creazione dell'utente" });
+            });
+        }
+      })
+      .catch(error => {
+        res.json({ "error": "Errore durante la ricerca dell'utente" });
+      });
+  },
 
     loginUser: (req, res) => {
       User.findOne({

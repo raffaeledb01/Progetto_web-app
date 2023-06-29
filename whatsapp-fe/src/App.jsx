@@ -105,9 +105,13 @@ function App() {
     })
     .then(res => res.json())
     .then(user => {
-      setLoggedUser(user);
-      navigate(`/${user.username}`);
-      return user;
+      if (user.error === 'Utente già esistente') {
+        alert('Utente già esistente, fare il Log in');
+      } else {
+        setLoggedUser(user);
+        navigate(`/${user.username}`);
+        return user;
+      }
     })
     .catch(error => {
       setError(error);
