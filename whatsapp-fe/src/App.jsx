@@ -4,16 +4,16 @@ import Sidebar from './Sidebar';
 import Chat from './Chat';
 import "./style/App.css";
 import {Routes, Route, useNavigate} from 'react-router-dom';
-import LoginPage from './Login';
-import SignUpPage from './SignUp';
+import Login from './Login';
+import SignUp from './SignUp';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {useEffect} from 'react';
 import Home from './Home';
 import { io } from 'socket.io-client';
 import { useRef } from 'react';
-
-
+import LoadingPage from './LoadingPage';
+import ErrorLoadingPage from './ErrorLoadingPage';
 
 function App() {
 
@@ -191,13 +191,13 @@ function App() {
   return (
     <Routes>
       <Route path = '/' element = { <Home />} />
-      <Route path = '/login' element = {<LoginPage changeLoggedUser = {changeLoggedUser} loggedUser = {loggedUser}/>} />
-      <Route path = '/signup' element = {<SignUpPage signUpUser = {signUpUser} loggedUser = {loggedUser} />} />
+      <Route path = '/login' element = {<Login changeLoggedUser = {changeLoggedUser} loggedUser = {loggedUser}/>} />
+      <Route path = '/signup' element = {<SignUp signUpUser = {signUpUser} loggedUser = {loggedUser} />} />
       <Route path = ':username' element = {
         <div className="app">
           <div className="app_body">
-            <Sidebar loggedUser = {loggedUser} setLoggedUser = {setLoggedUser} chats={chats} setShowChat = {setShowChat} addChat = {addChat} fetchAllChats = {fetchAllChats} setChatUsername= {setChatUsername}/> 
-            {loading ? <span>Seleziona una chat per iniziare a messaggiare</span> : error ? <span>Errore nel caricamento dei messaggi</span> :
+            <Sidebar loggedUser = {loggedUser} setLoggedUser = {setLoggedUser} chats={chats} setShowChat = {setShowChat} addChat = {addChat} fetchAllChats = {fetchAllChats} setChatUsername= {setChatUsername} setLoading = {setLoading} /> 
+            {loading ? <LoadingPage /> : error ? <ErrorLoadingPage /> :
             <Chat loggedUser = {loggedUser} messages = {messages} showChat = {showChat} chatUsername = {chatUsername} setShowChat = {setShowChat} setMessages = {setMessages} setLoading = {setLoading} socket = {socket}/> }
           </div>
         </div>

@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-const LoginPage = (props) => {
+const Login = (props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -24,7 +24,7 @@ const LoginPage = (props) => {
   };
 
   const handleLogin = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     let trimmedValueUsername = username.trim();
     let trimmedValuePassword = password.trim();
       if (trimmedValueUsername !== '' && trimmedValuePassword !== '') {
@@ -91,4 +91,4 @@ const LoginPage = (props) => {
   );
 };
 
-export default LoginPage;
+export default Login;

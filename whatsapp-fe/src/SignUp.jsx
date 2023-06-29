@@ -9,7 +9,7 @@ import Container from "@mui/material/Container";
 import "./style/SignUp.css";
 import { useNavigate } from 'react-router-dom';
 
-const SignUpPage = (props) => {
+const SignUp = (props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -23,7 +23,7 @@ const SignUpPage = (props) => {
   };
 
   const handleSignUp = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     let trimmedValueUsername = username.trim();
     let trimmedValuePassword = password.trim();
       if (trimmedValueUsername !== '' && trimmedValuePassword !== '') {
@@ -89,4 +89,4 @@ const SignUpPage = (props) => {
   );
 };
 
-export default SignUpPage;
+export default SignUp;

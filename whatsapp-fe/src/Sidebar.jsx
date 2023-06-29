@@ -56,6 +56,7 @@ function Sidebar(props) {
     const handleLogout = (e) => {
       e.preventDefault();
       props.setLoggedUser(null);
+      props.setLoading(true);
       navigate('/');
     }
 
