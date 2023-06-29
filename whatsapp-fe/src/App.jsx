@@ -11,6 +11,8 @@ import { useParams } from 'react-router-dom';
 import {useEffect} from 'react';
 import Home from './Home';
 import { io } from 'socket.io-client';
+import { useRef } from 'react';
+
 
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
   const [chatUsername, setChatUsername] = useState('') 
   const [messages, setMessages] = useState([]);
   const [socket, setSocket] = useState(null);
+  const previousShowChat = useRef(showChat);
+  
 
   useEffect(() => {
     const newSocket = io('http://localhost:3000');
@@ -81,10 +85,13 @@ function App() {
       body: JSON.stringify({'username': username, 'password': password})
     })
     .then(res => res.json())
-    .then(user => {setLoggedUser(user);
-      return user;
-    })
-    .then(user => {navigate(`/${user.username}`)})
+    .then(user => {
+      if(user.error === 'User not found') {
+        alert('User not found !')
+      } else {
+        setLoggedUser(user);
+        navigate(`/${user.username}`)
+      }})
     .catch(error => {
       setError(error);
       console.error(error);
@@ -115,10 +122,15 @@ function App() {
   
 
 
+
   useEffect(() => {
+    if (socket && previousShowChat.current) {
+      socket.emit('leaveRoom', previousShowChat.current);
+    }
+  
     if (socket && showChat) {
       socket.emit('joinRoom', showChat);
-      console.log('Emit nell useEffect')
+      console.log('Emit nell useEffect');
       fetch(`http://localhost:3000/api/messages/getAllMessages/${showChat}`)
         .then(res => res.json())
         .then(messages => {
@@ -130,23 +142,34 @@ function App() {
           console.error(error);
         });
     }
-
+  
     if (socket && showChat) {
-      socket.on('newMessage', () => {
-        console.log('on evento newMessage')
-        fetch(`http://localhost:3000/api/messages/getAllMessages/${showChat}`)
-          .then(res => res.json())
-          .then(messages => {
-            setLoading(false);
-            setMessages(messages);
-          })
-          .catch(error => {
-            setError(error);
-            console.error(error);
-          });
+      socket.on('newMessage', (roomId) => {
+        console.log('on evento newMessage');
+        console.log(showChat);
+        console.log(roomId);
+        if (showChat === roomId) {
+          fetch(`http://localhost:3000/api/messages/getAllMessages/${showChat}`)
+            .then(res => res.json())
+            .then(messages => {
+              setLoading(false);
+              setMessages(messages);
+            })
+            .catch(error => {
+              setError(error);
+              console.error(error);
+            });
+        }
       });
     }
-
+  
+    previousShowChat.current = showChat;
+  
+    return () => {
+      if (socket && previousShowChat.current) {
+        socket.emit('leaveRoom', previousShowChat.current);
+      }
+    };
   }, [socket, showChat]);
 
   const addChat = (username) => {

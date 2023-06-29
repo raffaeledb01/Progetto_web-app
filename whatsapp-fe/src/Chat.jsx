@@ -36,6 +36,7 @@ function Chat(props) {
         .then(messages => {
             props.setLoading(false); 
             props.setMessages(messages);
+            console.log(chatId)
             props.socket.emit('sendMessage', chatId)
             console.log('messaaggio inviato')
         })
