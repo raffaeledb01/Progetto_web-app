@@ -12,16 +12,20 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import RequestsContainer from './RequestsContainer';
 import LogoutIcon from '@mui/icons-material/Logout';
 
+
+//Componente per il render della barra laterale in cui mostro e gestisco il logout e l'elenco degli amici, delle chat e delle notifiche
 function Sidebar(props) {
 
-    const [showFriends, setShowFriends] = useState(false);
-    const [showListChats, setShowListChats] = useState(true);
-    const [friends, setFriends] = useState([]);
-    const [inputValueFriend, setInputValueFriend] = useState('');
-    const [requests, setRequests] = useState([]);
-    const [showRequests, setShowRequests] = useState(false)
+    const [showFriends, setShowFriends] = useState(false);  //Stato per gestire la visualizzazione della lista di amici
+    const [showListChats, setShowListChats] = useState(true); //Stato per gestire la visualizzazione della lista di chat
+    const [showRequests, setShowRequests] = useState(false) //Stato per gestire la visualizzazione della lista di richieste
+    const [friends, setFriends] = useState([]); //Stato per la lista di amici
+    const [requests, setRequests] = useState([]); //Stato per la lista di richieste
+    const [inputValueFriend, setInputValueFriend] = useState(''); //Stato per la gestione dell'input nell'aggiunta di un amico
+    
     const navigate = useNavigate()
 
+    // Handler per settare lo stato showFriends
     const handleClickFriends = (e) => {
         e.preventDefault();
         setShowFriends(true);
@@ -29,14 +33,23 @@ function Sidebar(props) {
         setShowRequests(false);
     }
 
+    // Handler per settare lo stato showListChats
     const handleClickChats = (e) => {
         e.preventDefault();
         setShowListChats(true);
         setShowFriends(false);
         setShowRequests(false);
-        
     }
 
+    // Handler per settare lo stato showRequests
+    const handleClickRequests = (e) => {
+      e.preventDefault()
+      setShowRequests(true)
+      setShowListChats(false)
+      setShowFriends(false)
+    }
+
+    // Handler per eseguire la funzione addFriend per l' aggiunta di un amico
     const handleClickAddFriend = (e) => {
       let trimmedValueFriend = inputValueFriend.trim();
       if (trimmedValueFriend !== '') {
@@ -45,13 +58,7 @@ function Sidebar(props) {
       }
     }
 
-    const handleClickRequests = (e) => {
-      e.preventDefault()
-      setShowRequests(true)
-      setShowListChats(false)
-      setShowFriends(false)
-    }
-
+     // Handler per gestire la disconnessione
     const handleLogout = (e) => {
       e.preventDefault();
       props.setLoggedUser(null);
@@ -59,6 +66,7 @@ function Sidebar(props) {
       navigate('/');
     }
 
+    // Funzione per l'aggiunta di un nuovo amico
     const addFriend = (username) => {
         fetch('http://localhost:3001/api/users/addFriend', {
             method: 'post',
@@ -71,6 +79,7 @@ function Sidebar(props) {
           });
     }
 
+    // Funzione per caricare la lista di amici
     const fetchFriends = () => {
       fetch(`http://localhost:3001/api/users/getFriends/${props.loggedUser._id}`)
             .then(res => {
@@ -85,6 +94,7 @@ function Sidebar(props) {
             });
     }
 
+    // Funzione per caricare la lista di richieste
     const fetchRequests = () => {
       fetch(`http://localhost:3001/api/users/getRequests/${props.loggedUser._id}`)
             .then(res => {
@@ -99,23 +109,27 @@ function Sidebar(props) {
             });
     }
 
+    // useEffect per gestire il cambiamento dello stato showListChats e visualizzare nella SidebarChat la lista di chat, di amici o di richieste
     useEffect(() => {
       
+      // Esecuzione della funzione fetchFriends quando lo stato showFriends è vero
         if (showFriends && !showListChats && !showRequests) {
           fetchFriends();
       }}, [showFriends]);
 
+      // Esecuzione della funzione fetchRequests quando lo stato showRequests è vero
       useEffect(() => {
         if (!showFriends && !showListChats && showRequests) {
           fetchRequests();
       }}, [showRequests]);
 
+      // Esecuzione della funzione fetchFriends quando lo stato showListChats è vero
       useEffect(() => {
         if (!showFriends && showListChats && !showRequests) {
           props.fetchAllChats();
       }}, [showListChats])
 
-
+      // Funzione per accettare una richiesta di amicizia
       const acceptRequest = (username) => {
         fetch('http://localhost:3001/api/users/acceptRequest', {
           method: 'post',
@@ -129,6 +143,7 @@ function Sidebar(props) {
         });
       }
 
+      // Funzione per rifiutare una richiesta di amicizia
       const declineRequest = (username) => {
         fetch('http://localhost:3001/api/users/declineRequest', {
           method: 'post',
@@ -142,6 +157,7 @@ function Sidebar(props) {
         });
       }
 
+      // Funzione per rimuovere un amico
       const removeFriend = (username) => {
         fetch('http://localhost:3001/api/users/removeFriend', {
           method: 'post',
@@ -197,9 +213,26 @@ function Sidebar(props) {
            </div>
         </div>
         <div className='sidebarChats'>
-            {showFriends ? <FriendsContainer friends = {friends} loggedUser = {props.loggedUser} removeFriend = {removeFriend} addChat = {props.addChat} setChatUsername= {props.setChatUsername} setChatImg = {props.setChatImg} setLoading = {props.setLoading}/> : showListChats ? 
-            <ChatsContainer chats={props.chats} loggedUser = {props.loggedUser} setShowChat = {props.setShowChat} setChatUsername= {props.setChatUsername} setChatImg = {props.setChatImg}/> :
-            <RequestsContainer requests = {requests} loggedUser = {props.loggedUser} acceptRequest = {acceptRequest} declineRequest = {declineRequest}/>}       
+            {showFriends ? 
+              <FriendsContainer
+                friends = {friends}
+                loggedUser = {props.loggedUser}
+                removeFriend = {removeFriend}
+                addChat = {props.addChat}
+                setChatUsername= {props.setChatUsername}
+                setChatImg = {props.setChatImg}
+                setLoading = {props.setLoading}/> : showListChats ? 
+              <ChatsContainer chats={props.chats}
+                loggedUser = {props.loggedUser}
+                setShowChat = {props.setShowChat}
+                setChatUsername= {props.setChatUsername}
+                setChatImg = {props.setChatImg}/> :
+              <RequestsContainer 
+                requests = {requests}
+                loggedUser = {props.loggedUser}
+                acceptRequest = {acceptRequest}
+                declineRequest = {declineRequest}/>
+            }
         </div>
     </div>
   )
