@@ -1,6 +1,7 @@
 import React from "react";
 import './style/Message.css'
 
+// Componente per il render nella Chat del singolo messaggio
 function Message(props) {
     return (
         <p className={ props.loggedUser.username === props.author.username ? 'chat_message ' : 'chat_receiver'}>

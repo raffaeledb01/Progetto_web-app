@@ -1,7 +1,7 @@
 import React from "react";
 import SidebarChat from "./SidebarChat";
 
-
+// Componente per mappare l'array di chats e renderizzarli
 export default function ChatsContainer(props) {
     return  props.chats.map( chat => <SidebarChat 
         data= {chat} 

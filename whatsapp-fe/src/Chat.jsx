@@ -7,13 +7,12 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import MicIcon from '@mui/icons-material/Mic';
 import MessagesContainer from './MessagesContainer';
-import { io } from 'socket.io-client';
 
-
-
+//Componente Chat in cui sono renderizzati e gestiti i messaggi
 function Chat(props) {
-    const [inputValue, setInputValue] = useState('')
+    const [inputValue, setInputValue] = useState('') // Stato per la gestione dell'input
 
+    // Funzione per l'aggiunta di un nuovo messaggio
     function addMessage(content, chatId) {
         const now = new Date();
         const year = now.getFullYear(); 

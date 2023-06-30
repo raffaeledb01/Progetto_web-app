@@ -7,22 +7,24 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import "./style/Login.css";
-import { useNavigate } from 'react-router-dom';
 
-
-
+// Componente per la pagina di login 
 const Login = (props) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState(''); // Stato per gestire l'input dell'username
+  const [password, setPassword] = useState(''); // Stato per gestire l'input della password
 
+
+  // Handle per settare lo stato username
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
 
+    // Handle per settare lo stato password
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
+    // Handle per consentire il login solo in caso di credenziali corrette
   const handleLogin = (e) => {
     e.preventDefault();
     let trimmedValueUsername = username.trim();
@@ -53,7 +55,7 @@ const Login = (props) => {
             autoComplete="email"
             autoFocus
             value={username}
-            onChange={handleUsernameChange}
+            onChange={handleUsernameChange} // L'evento onChange che richiama l'handle per settare lo stato username
             className="text-field"
           />
           <TextField
@@ -66,7 +68,7 @@ const Login = (props) => {
             id="password"
             autoComplete="current-password"
             value={password}
-            onChange={handlePasswordChange}
+            onChange={handlePasswordChange} // L'evento onChange che richiama l'handle per settare lo stato password
             className="text-field"
           />
           <Button
@@ -74,7 +76,7 @@ const Login = (props) => {
             fullWidth
             variant="contained"
             className="submit-button"
-            onClick={handleLogin}
+            onClick={handleLogin} // L'evento onClick che richiama l'handle per loggarsi
           >
            Log in 
           </Button>

@@ -5,7 +5,7 @@ import { Avatar } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 
-
+// Componente per il render nella Sidebar del singolo amico
 function Friend(props) {
 
   return (

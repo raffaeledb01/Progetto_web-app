@@ -2,6 +2,8 @@ import React from "react";
 import Button from "./Button";
 import "./style/Home.css";
 
+
+//Componente per il render della pagina iniziale per scegliere se loggarsi o iscriversi
 function Home() {
   return (
     <div className="container">

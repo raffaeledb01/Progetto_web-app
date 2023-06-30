@@ -3,7 +3,7 @@ import "./style/SidebarChat.css"
 import { Avatar } from '@mui/material'
 
 
-
+// Componente per il render nella Sidebar della singola chat
 function SidebarChat(props) {
 
   const nameChat = props.data.partecipants.filter(u => u._id !== props.loggedUser._id)[0].username;

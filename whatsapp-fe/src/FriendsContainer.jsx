@@ -1,7 +1,7 @@
 import React from "react";
 import Friend from "./Friend";
 
-
+// Componente per mappare l'array di amici e renderizzarli
 export default function FriendsContainer(props) {
     return  props.friends.map( friend => <Friend 
         username = {friend.username}

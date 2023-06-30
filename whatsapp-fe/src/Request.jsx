@@ -6,7 +6,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 
-
+// Componente per il render nella Sidebar della singola richiesta
 function Request(props) {
 
   return (

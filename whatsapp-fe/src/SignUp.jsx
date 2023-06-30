@@ -7,26 +7,32 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import "./style/SignUp.css";
-import { useNavigate } from 'react-router-dom';
 
+// Componente per la pagina di login 
 const SignUp = (props) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [img, setImg] = useState('')
+  const [username, setUsername] = useState(''); // Stato per gestire l'input dell'username
+  const [password, setPassword] = useState(''); // Stato per gestire l'input della password
+  const [img, setImg] = useState(''); // Stato per gestire l'input dell'URL dell'immagine di profilo
 
+  // Handle per settare lo stato username
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
 
+  // Handle per settare lo stato password
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
     
   };
 
+
+  // Handle per settare lo stato img
   const handleImgChange = (e) => {
     setImg(e.target.value);
   };
 
+
+  // Handle per consentire il sign up solo in caso di credenziali corrette
   const handleSignUp = (e) => {
     e.preventDefault();
     let trimmedValueUsername = username.trim();
@@ -58,7 +64,7 @@ const SignUp = (props) => {
             autoComplete="username"
             autoFocus
             value={username}
-            onChange={handleUsernameChange}
+            onChange={handleUsernameChange} // L'evento onChange che richiama l'handle per settare lo stato username
             className="text-field"
           />
           <TextField
@@ -71,7 +77,7 @@ const SignUp = (props) => {
             id="password"
             autoComplete="current-password"
             value={password}
-            onChange={handlePasswordChange}
+            onChange={handlePasswordChange} // L'evento onChange che richiama l'handle per settare lo stato password
             className="text-field"
           />
           <TextField
@@ -82,7 +88,7 @@ const SignUp = (props) => {
             name="img"
             autoComplete="img"
             value={img}
-            onChange={handleImgChange}
+            onChange={handleImgChange} // L'evento onChange che richiama l'handle per settare lo stato img
             className="text-field"
           />
           <Button
@@ -90,7 +96,7 @@ const SignUp = (props) => {
             fullWidth
             variant="contained"
             className="submit-button"
-            onClick={handleSignUp}
+            onClick={handleSignUp} // L'evento onClick che richiama l'handle per iscriversi
           >
             Sign up
           </Button>
