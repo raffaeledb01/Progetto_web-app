@@ -38,7 +38,6 @@ function Sidebar(props) {
     }
 
     const handleClickAddFriend = (e) => {
-      e.preventDefault();
       let trimmedValueFriend = inputValueFriend.trim();
       if (trimmedValueFriend !== '') {
         addFriend(inputValueFriend);
@@ -159,7 +158,7 @@ function Sidebar(props) {
     return (
     <div className='sidebar'>
         <div className='sidebar_header'>
-            <Avatar src= {props.loggedUser.img}/>
+            <Avatar src= ''/>
             <h3>{props.loggedUser.username}</h3>
             <div className='sidebar_header_right'>
                 <IconButton onClick = {handleClickFriends}>
@@ -178,15 +177,20 @@ function Sidebar(props) {
         </div>
         <div className='sidebar_search'>
            <div className='sidebar_search_container'>
-            {showFriends ? <form onSubmit={handleClickAddFriend}><PersonAddIcon  />
+            {showFriends ? <><PersonAddIcon  />
             <input 
             type='text' 
             value = {inputValueFriend} 
             onChange = {(e => {
-                e.preventDefault()
                 setInputValueFriend(e.target.value)
-            })} 
-            placeholder='Aggiungi amico tramite username' /></form> : showListChats ?
+            })}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleClickAddFriend();
+              }
+            }}
+            placeholder='Aggiungi amico tramite username' /></> : showListChats ?
             <><SearchIcon /><input type='text' placeholder='Cerca Chat' /></> : <></>
             }
                 

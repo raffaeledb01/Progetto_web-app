@@ -32,7 +32,7 @@ const SignUp = (props) => {
     let trimmedValueUsername = username.trim();
     let trimmedValuePassword = password.trim();
     let trimmedValueImg = img.trim();
-      if (trimmedValueUsername !== '' && trimmedValuePassword !== '' && trimmedValueImg !== '') {
+      if (trimmedValueUsername !== '' && trimmedValuePassword !== '' ) {
         props.signUpUser(username, password, img);
         setUsername('');
         setPassword('');
@@ -76,13 +76,11 @@ const SignUp = (props) => {
           />
           <TextField
             margin="normal"
-            required
             fullWidth
             id="img"
             label="Profile Photo URL"
             name="img"
             autoComplete="img"
-            autoFocus
             value={img}
             onChange={handleImgChange}
             className="text-field"

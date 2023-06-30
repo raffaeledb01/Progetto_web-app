@@ -14,7 +14,7 @@ const io = new Server(httpServer, {
 })
 
 const port = 3001;
-const db_url = 'mongodb+srv://dibiraffaele2001:Raffaele2001.@raffaeledb01.ftalzdh.mongodb.net/app'
+const db_url = 'mongodb+srv://dibiraffaele2001:Raffaele2001.@raffaeledb01.ftalzdh.mongodb.net/ChatApp'
 
 mongoose.connect(db_url);
 const db = mongoose.connection;

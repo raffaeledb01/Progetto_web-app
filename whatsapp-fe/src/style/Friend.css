@@ -1,8 +1,8 @@
 .buttonRequest {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-width: 10vw;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 10vw;
   }
   
   .buttonRequest > .MuiSvgIcon-root {
