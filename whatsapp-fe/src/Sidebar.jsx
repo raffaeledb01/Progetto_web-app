@@ -206,7 +206,7 @@ function Sidebar(props) {
                 handleClickAddFriend();
               }
             }}
-            placeholder='Aggiungi amico tramite username' /></> : showListChats ?
+            placeholder='Aggiungi amico ...' /></> : showListChats ?
             <><SearchIcon /><input type='text' placeholder='Cerca Chat' /></> : <></>
             }
                 
