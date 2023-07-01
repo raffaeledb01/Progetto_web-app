@@ -112,7 +112,7 @@ function App() {
       .then(res => res.json())
       .then(user => {
         if (user.error === 'Utente già esistente') {
-          alert('Utente già esistente, fare il Log in');
+          alert('Utente già esistente');
         } else {
           setLoggedUser(user);
           navigate(`/${user.username}`);
