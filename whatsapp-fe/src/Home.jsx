@@ -9,7 +9,7 @@ function Home() {
     <div className="container">
       <h1>Benvenut@ nella nostra app di messaggistica</h1>
       <div className="button-container">
-        <Button description="LOGIN" url="./login" />
+        <Button description="LOG IN" url="./login" />
         <Button description="SIGN UP" url="./signup" />
       </div>
     </div>
