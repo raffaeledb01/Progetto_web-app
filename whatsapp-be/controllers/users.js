@@ -95,7 +95,7 @@ module.exports = {
                 } else if (user.requests.length === 0) {
                   isFriendUser = false
                 }
-                if (isFriendUser) { 
+                if (isFriendUser) { //gestisco il caso in cui l'utente non è nostro amico ma ha già inviato la richiesta di amicizia
                   return res.status(400).json({ message: 'Richiesta gia inviata' }); 
                 }
 
@@ -129,7 +129,7 @@ module.exports = {
       });
     },
 
-    //controllore per oaccettare una richiesta di amicizia
+    //controllore per accettare una richiesta di amicizia
     acceptRequest: (req, res) => {
       User.findOne({ _id: req.body.loggedUserId })
         .then(loggedUser => {

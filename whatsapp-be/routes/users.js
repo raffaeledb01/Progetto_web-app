@@ -2,6 +2,7 @@ const express = require('express');
 const usersControllers = require('../controllers/users');
 const router = express.Router();
 
+// Configurazione delle routes di users
 router.post('/new', usersControllers.addUser)
 router.post('/login', usersControllers.loginUser)
 router.get('/getFriends/:idUser', usersControllers.getAllFriends)

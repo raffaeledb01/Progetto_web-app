@@ -13,7 +13,7 @@ const userSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     }],
-    img: String
+    img: String //immgagine di profilo dell'utente
 });
 
 module.exports = mongoose.model('User', userSchema);

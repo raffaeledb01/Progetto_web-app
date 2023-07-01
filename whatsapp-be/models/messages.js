@@ -7,8 +7,8 @@ const messageSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    content: String,
-    timeStamp: String
+    content: String, //contenuto del messaggio
+    timeStamp: String //orario e giorno dell'invio del messaggio
 });
 
 module.exports = mongoose.model("Message", messageSchema);
