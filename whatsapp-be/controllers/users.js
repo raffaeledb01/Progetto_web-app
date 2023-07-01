@@ -12,7 +12,7 @@ module.exports = {
     })
       .then(existingUser => {
         if (existingUser) {   //in caso dovesse già esistere un utente con quello username, viene ritornato un messaggio di errore
-          res.json({ "error": "Utente già esistente, fare il Login o usare un altro username" });
+          res.json({ "error": "Utente già esistente" });
         } else {
           User.create({   //in caso non esista alcun utente con lo username inserito, viene creato un nuovo utente
             username: req.body.username,
