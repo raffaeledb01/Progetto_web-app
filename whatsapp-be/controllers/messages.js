@@ -4,8 +4,11 @@ const Chat = require('../models/chats');
 const messages = require('../models/messages');
 const User = require('../models/users');
 
+// File per la definizione dei controllori utili alla gestione dei messaggi
+
 module.exports = {
 
+    //controllore per la creazione di un nuovo messaggio alla chat
     addMessage: (req, res) => {
         Message.create({
             author: req.body.author,
@@ -38,7 +41,7 @@ module.exports = {
             
     },
       
-
+    //controllore per ottenere tutti i messaggi di una chat già esistente
     getAllMessagesbyChat: (req, res) => {
        Chat.findOne({_id: req.params.idChat}).populate({
         path: 'messages',
